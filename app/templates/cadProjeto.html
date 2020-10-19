@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% block body %}
+    <div class="container">
+
+      <div class="well text-center">
+        <h1>Projeto</h1>
+      </div>
+
+      <hr class="light" />
+    <div class="container">
+      <div class="row">
+        <div class="col md-12">
+          <h2>Lista de Projeto<button type="button" class="btn btn-success float-right" 
+            data-toggle="modal" data-target="#mymodal">
+            Adicionar</button></h2>
+
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+            {% for message in  messages %}
+
+            <div class="alert alert-success alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">x</span>
+              </button>
+              {{message}}
+            </div>
+            
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+
+            <table class="table table-striped">
+              <tr>
+                <td>Id</td>
+                <td>Nome</td>
+                <td>Gerente</td>
+                <td>Empresa</td>
+                <td>Tipo Contagem</td>
+                <td>Data Inicio</td>
+              </tr>
+              
+              
+              {% for i in range (tam) %}
+              <tr>
+
+                <td>{{results[i][0]}}</td>
+                <td>{{results[i][3]}}</td>
+                <td>{{results[i][7]}}</td>
+                <td>{{lista2[i]}}</td>
+                <td>{{lista[i]}}</td>
+                <td>{{results[i][8]}}</td>
+                <td>
+                  <a href="/alterarproj/{{ results[i][0] }}" data-toggle="modal" data-target="#modaledit{{results[i][0]}}">
+                    <img class="fa fa-fw fa-edit" />
+                  </a>
+                  <a href="/deletarproj/{{ results[i][0] }}" onclick="return confirm('Confirmar Exclusão?')">
+                    <img class="fa fa-fw fa-trash-alt" />
+                  </a>
+                </td>
+              </tr>
+
+              <div class="modal fade" id="modaledit{{results[i][0]}}" role="dialog">
+
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Altere o Projeto</h4>
+                      <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+        
+                      <form action="{{url_for('projeto.alterarproj')}}" method="POST">
+
+                          <div class="form-group">
+
+                            <label>Nome:</label>
+                            <input type="hidden" name="id" value="{{results[i][0]}}">
+                            <input type="text" class="form-control" name="nome" value="{{results[i][3]}}">
+          
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Gerente:</label>
+                              <input type="text" class="form-control" name="gerente" value="{{results[i][7]}}">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Empresa:</label>
+                              <select class="form-control" name="emp">
+                                  {% for row in results5 %}
+                                  <option value="{{row[0]}}">{{row[1]}}</option>
+                                  {% endfor %}
+                              </select>
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Descrição:</label>
+                              <input type="text" class="form-control" name="descricao" value="{{results[i][4]}}">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                            <label>Tipo de Contagem:</label>
+                            
+                            <select class="form-control" name="tc">
+                              {% for row in results4 %}
+                              <option value="{{row[0]}}">{{row[1]}}</option>
+                              {% endfor %}
+                            </select>
+                            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Tempo Contagem:</label>
+                              <input type="text" class="form-control" name="tempocontagem" value="{{results[i][5]}}">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Tempo Real:</label>
+                              <input type="text" class="form-control" name="temporeal" value="{{results[i][6]}}">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Data Inicio:</label>
+                              <input type="date" class="form-control" name="datainicio" value="{{results[i][8]}}" style="width: 150px;">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Data Prevista:</label>
+                              <input type="date" class="form-control" name="dataprevista" value="{{results[i][10]}}" style="width: 150px;">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>Data Termino:</label>
+                              <input type="date" class="form-control" name="datatermino" value="{{results[i][9]}}" style="width: 150px;">
+            
+                          </div>
+          
+                          <div class="form-group">
+          
+                              <label>FCT:</label>
+                              <input type="text" class="form-control" name="fct" value="{{results[i][11]}}">
+            
+                          </div>
+
+                          <div class="form-group">
+          
+                            <label>Linguagem:</label>
+                            
+                            <select class="form-control" name="ling">
+                              {% for row in results6 %}
+                              <option value="{{row[0]}}">{{row[1]}}</option>
+                              {% endfor %}
+                            </select>
+                            
+                          </div>
+
+                        <div class="form-group">
+        
+                          <button class="btn btn-primary" type="submit">Alterar</button>
+        
+                        </div>
+        
+                      </form>
+        
+                    </div>
+        
+                    <div class="modal-footer">
+        
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              {%endfor%}
+            </table>
+        </div>
+      </div>
+
+      <div class="modal fade" id="mymodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Insira o Tipo de Contagem</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('projeto.insertproj')}}" method="POST">
+
+                <div class="form-group">
+
+                  <label>Nome:</label>
+                  <input type="text" class="form-control" name="nome" required="1">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Gerente:</label>
+                    <input type="text" class="form-control" name="gerente" required="1">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Empresa:</label>
+                    <select class="form-control" name="emp">
+                        {% for row in results5 %}
+                        <option value="{{row[0]}}">{{row[1]}}</option>
+                        {% endfor %}
+                    </select>
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Descrição:</label>
+                    <input type="text" class="form-control" name="descricao" required="1">
+  
+                </div>
+
+                <div class="form-group">
+
+                  <label>Tipo de Contagem:</label>
+                  
+                  <select class="form-control" name="tc">
+                    {% for row in results4 %}
+                    <option value="{{row[0]}}">{{row[1]}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Tempo Contagem:</label>
+                    <input type="text" class="form-control" name="tempocontagem" required="1">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Tempo Real:</label>
+                    <input type="text" class="form-control" name="temporeal" required="1">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Data Inicio:</label>
+                    <input type="date" class="form-control" name="datainicio" required="1" style="width: 150px;">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Data Prevista:</label>
+                    <input type="date" class="form-control" name="dataprevista" required="1" style="width: 150px;">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>Data Termino:</label>
+                    <input type="date" class="form-control" name="datatermino" required="1" style="width: 150px;">
+  
+                </div>
+
+                <div class="form-group">
+
+                    <label>FCT:</label>
+                    <input type="text" class="form-control" name="fct" required="1">
+  
+                </div>
+
+                <div class="form-group">
+
+                  <label>Linguagem:</label>
+                  <select class="form-control" name="ling">
+                      {% for row in results6 %}
+                      <option value="{{row[0]}}">{{row[1]}}</option>
+                      {% endfor %}
+                  </select>
+
+              </div>
+
+                <div class="form-group">
+
+                  <button class="btn btn-primary" type="submit">Inserir</button>
+
+                </div>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+ {% endblock %}
+
+ {% endblock %}

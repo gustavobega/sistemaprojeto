@@ -1,0 +1,144 @@
+.container {
+    min-height: 60%;
+}
+
+.logo{
+    padding-bottom: 5px;
+}
+
+.nv {
+    padding-left: 59.2%;
+}
+
+.textoSoma {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.campoPeso {
+    width: 50px;
+}
+
+.pesoNV {
+    width: 50px;
+}
+
+.imagem {
+    width: 850px;
+    height: 500px;
+}
+
+.tudo { display: table; }
+
+.exibetabelas {
+    max-height: 260px;
+    overflow-y: scroll;
+}
+
+.menu {
+    float: left; 
+    width: 75%;
+}
+
+.menu1 {
+    float: left; 
+    width: 30%;
+}
+
+.menu2 {
+    padding: 15px;
+    float: right;
+    width: 70%;
+    max-height: 290px;
+    overflow-y: scroll;
+}
+
+.conteudo2,.conteudo3,.conteudo4 {
+    padding: 10px;
+    border: 1px solid #202020;
+    float: right;
+    width: 23%;
+    max-height: 470px;
+    overflow-y: scroll;
+}
+
+.labinho {
+	display: block;
+	float: left;
+}
+
+.pnotajustado {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.fatorajuste {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.fpa {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.textinho {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.tabela {
+    max-height: 280px;
+    overflow-y: scroll;
+}
+
+.nameTable {
+    text-align: center;
+    font-size: 20px;
+    color: darkslategrey;
+    font-weight: bolder;
+}
+
+h5 {
+    text-align: center;
+}
+
+.modelos {
+    display: table;
+}
+
+.modelo {
+    float: left;
+    width: 15%;
+}
+
+.informacao {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    float: right;
+    width: 83%;  
+}
+
+.informacaoModeloBasico, .informacaoModeloIntermediario, .informacaoModeloAvancado{
+    overflow-y: scroll;
+    width: 49%;
+    height: 120px;
+}
+
+.informacaoModoOrganico, .informacaoModoSemi, .informacaoModoEmbutido {
+    overflow-y: scroll;
+    width: 49%;
+    height: 120px;
+}
+
+.pontosFuncao {
+    text-align: center;
+    font-weight: 800;
+    font-size: 20px;
+    border: 2px solid forestgreen;
+    border-radius: 10px;
+}
+
+

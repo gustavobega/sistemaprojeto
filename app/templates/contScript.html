@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="well text-center">
+        <h1>Contagem Script</h1>
+    </div>
+    
+    <hr class="light" />
+    <div id="MsgErro" class="alert alert-danger" role="alert" style="display: none"></div>
+    <div class="form-row">
+
+        <div class="form-group col-md-3">
+          <label for="selProjeto">Projeto:</label>
+          <select class="form-control" id="selProjeto" onchange="carregaFuncoes();">
+            {% for row in results %}
+              <option value="{{row[0]}}">{{row[3]}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="selFuncao">Função:</label>
+          <select class="form-control" id="selFuncao" onchange="verificaFuncao();">
+          </select>
+        </div>
+        
+        <div class="form-group col-md-3" style="display: none; padding-top: 42px; text-align: right;" id="buttonDeletar">
+          <input type="button" value="Deletar Script" class="btn btn-danger" id="btnDeletar" onclick="deletarScript();">
+        </div>
+
+        <div class="form-group col-md-3" id="inputfile">
+            <label for="selScript">Selecione o Script:</label>
+            <input type="file" id="filescript" style="font-size: 17px;">
+        </div>
+
+        <div class="form-group col-md-3" style="padding-left: 12%;" id="buttonimport">
+            <input type="button" value="Importar" class="btn btn-primary" id="btnImportar" onclick="carregaTabelas();">
+        </div>
+        <hr class="light" />
+
+        </br>
+        <div class="container">
+
+          <div class="well text-center">
+            <h3>Área para desenvolver a Contagem</h3>
+          </div>
+
+        </div>
+        <hr class="light" />
+        
+        <div class="container">
+          <div class="form-row justify-content-md-center">
+            <div id="pnotajustado" class="pnotajustado form-group col-md-4"></div>
+          </div>
+        </div>
+        <div class="alert alert-warning" id="warning2" role="alert" style="width: 100%; display: none;">
+          Já Existe contagem para o tipo dado, caso queira realizar a contagem por script, retire as contagens do modelo.
+        </div>
+        <div class="alert alert-warning" id="warning" role="alert" style="width: 100%;">
+          Essa área aparecerá após a importação do Script!!!
+        </div>
+        <div class="text-center" id="carrega" style="padding-left: 45%;"></div>
+        <div class="tudo" id="tudo">
+
+          <div class="menu1" id="dadostabela" style="display: none;">
+            <h5>Selecione as Tabelas utilizadas para desenvolver a Função:</h5>
+          
+            <div id="tabelas" class="exibetabelas"></div>
+          </div>
+
+          <div class="menu2" id="tabelaContagem" style="display: none;">
+              <table class="table table-striped" id="tbContagem">
+                <thead>
+                  <tr>
+                    <td><b>Descrição</b></td>
+                    <td><b>Tipo</b></td>
+                    <td><b>TD</b></td>
+                    <td><b>AR / TR</b></td>
+                    <td><b>Complexidade</b></td>
+                    <td><b>Contribuição</b></td>
+                  </tr>
+                </thead>
+                <tbody id="tbodyContagem">
+                    <!--Aqui... carregado por ajax-->
+                </tbody>
+              </table> 
+          </div>
+        </div>
+      </div>
+    </form>
+  </br>
+
+  <div id="MsgSucesso" class="alert alert-success alert-dismissable" role="alert" style="display: none;"></div>
+  <div id="MsgErro2" class="alert alert-danger" role="alert" style="display: none"></div>
+
+  <div class="text-center" id="carrega"></div>
+  
+  <div class="form-group text-center" id="btnsalvar" style="display: none;">
+    <hr class="light" />
+    <a href="javascript:;" onclick="salvaContagemFuncao();" class="btn btn-primary">Salvar</a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/contagemScript.js') }}"></script>
+
+{% endblock %}

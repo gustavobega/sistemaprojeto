@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="well text-center">
+        <h1>Contagem Tela</h1>
+    </div>
+    <hr class="light" />
+    <form>
+
+      <div class="form-row">
+
+        <div class="form-group col-md-3">
+          <label for="selProjeto">Projeto:</label>
+          <select class="form-control" id="selProjeto" onchange="carregaFuncoes(); limpaInput();">
+            {% for row in results %}
+              <option value="{{row[0]}}">{{row[3]}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="selFuncao">Função:</label>
+          <select class="form-control" id="selFuncao" onchange="carregaFoto(); limpaInput();">
+          </select>
+        </div>
+
+      </div>
+
+    </form>
+
+      <div class="tudo">
+
+        <div class="menu">
+          <img class="imagem" id="imageoption" />
+        </div>
+        <label style="padding-left: 25px;">Regras de Contagem:</label>
+
+        <div class="conteudo2" id="c2">
+          <b>Entrada Externa (EE).</b><p></p>
+          <p>Entrada Externa (EE) – é qualquer função ou transação que leva dados de controle de fora para dentro da fronteira da aplicação.</p>
+          <b>EXEMPLO:</b><p></p>
+          <p>- Transações que recebem dados externos utilizados para manter os ALIs;</p> 
+           - Processamento em lotes de atualização de bases cadastrais, a partir de arquivos de movimento;<p></p>
+          <p>- Janelas para Inserir, alterar e excluir registros.</p>
+          <p><b>Não são consideradas EE:</b></p>
+          <p>- Telas de filtro de relatórios e consultas;</p>
+          <p>- Menus;</p>
+          <p>- Telas de Login</p>
+          <hr />
+          <b>REGRAS - TIPO DADO  (TD):</b><p></p>
+          <p>- Conte 1 TD para cada campo único reconhecido pelo usuário e não repetido, mantido ou recuperado de um ALI ou AIE.</p>
+          <p>- Há casos em que vários campos implementam apenas 1 TD. Exemplo: Data (dia, mês e ano).</p>
+          <p>- Campos calculados e armazenados em um ALI também são contados como 1 TD.</p>
+          <p>- Conte apenas os campos utilizados pela aplicação em análise.</p>
+          <p>- Quando um único arquivo lógico é composto por mais de uma tabela no banco de dados, a chave estrangeira usada para estabelecer o relacionamento entre estas tabelas não deve ser contada mais de uma vez como TD.</p>
+          <p>- Caso a chave estrangeira seja composta por vários campos, todos eles devem ser contados como TD</p>
+          <hr />
+          <b>REGRAS - TIPO REGISTRO (TR):</b><p></p>
+          <p>- Conte 1 TR para cada subgrupo de um ALI ou AIE.</p>
+          <p>- Contar 1 TR para cada chave-primária presente no ALI/AIE.</p>
+          <p>- Caso o ALI/AIE contenha apenas a própria chave contar um único TR</p>
+          <p>- No caso de entidades dependentes, se puder existir a ocorrência da entidade principal sem o respectivo par na entidade dependente (ex: funcionários e dependentes), deve-se contar 2 TR, caso contrário, 1 TR.</p>
+          <p>- No caso de entidades supertipo e subtipo (generalização), cada uma delas é contada como 1 TR.</p>
+        </div>
+
+        <div class="conteudo3" id="c3" style="display: none;">
+          <b>Saida Externa (SE).</b><p></p>
+          <p>Saída Externa (SE) - É um processo elementar que envia dados ou informações de controle para fora da fronteira do sistema.</p>
+          <b>EXEMPLO:</b><p></p>
+          <p>- Relatórios com totalização de dados;</p> 
+          <p>- Relatórios que também atualizam arquivos;</p>
+          <p>- Consultas com cálculos ou apresentação de dados derivados;</p>
+          <p>- Informações em formato gráfico.</p>
+          <p><b>Não são consideradas Saídas Externas:</b></p>
+          <p>- Menus de navegação;</p>
+          <p>- consultas e relatórios sem nenhum totalizador, que não atualizam arquivos, não têm dados derivados ou modificam o comportamento do sistema.</p>
+          <hr />
+          <b>REGRAS - TIPO DADO  (TD):</b><p></p>
+          <p>- Conte 1 TD para cada campo único reconhecido pelo usuário e não repetido, mantido ou recuperado de um ALI ou AIE.</p>
+          <p>- Há casos em que vários campos implementam apenas 1 TD. Exemplo: Data (dia, mês e ano).</p>
+          <p>- Campos calculados e armazenados em um ALI também são contados como 1 TD.</p>
+          <p>- Conte apenas os campos utilizados pela aplicação em análise.</p>
+          <p>- Quando um único arquivo lógico é composto por mais de uma tabela no banco de dados, a chave estrangeira usada para estabelecer o relacionamento entre estas tabelas não deve ser contada mais de uma vez como TD.</p>
+          <p>- Caso a chave estrangeira seja composta por vários campos, todos eles devem ser contados como TD</p>
+          <hr />
+          <b>REGRAS - TIPO REGISTRO (TR):</b><p></p>
+          <p>- Conte 1 TR para cada subgrupo de um ALI ou AIE.</p>
+          <p>- Contar 1 TR para cada chave-primária presente no ALI/AIE.</p>
+          <p>- Caso o ALI/AIE contenha apenas a própria chave contar um único TR</p>
+          <p>- No caso de entidades dependentes, se puder existir a ocorrência da entidade principal sem o respectivo par na entidade dependente (ex: funcionários e dependentes), deve-se contar 2 TR, caso contrário, 1 TR.</p>
+          <p>- No caso de entidades supertipo e subtipo (generalização), cada uma delas é contada como 1 TR.</p>
+        </div>
+
+        <div class="conteudo4" id="c4" style="display: none;">
+          <b>Consulta Externa (CE).</b><p></p>
+          <p>Consulta Externa (CE) - é um processo que envia dados ou informações de controle para fora da fronteira da aplicação.</p>
+          <b>EXEMPLO:</b><p></p>
+          <p>- Drop-downs (simples recuperação e apresentação de dados) de ALI ou AIE;</p> 
+          <p>- Telas de help;</p>
+          <p>- Telas de login (sem criptografia);</p>
+          <p>- Menus gerados dinamicamente com base em configuração da aplicação</p>
+          <p><b>Não são exemplos de CE:</b></p>
+          <p>- Menus estáticos;</p>
+          <p>- Relatórios e consultas que contenham cálculo ou gerem dados derivados.</p>
+          <hr />
+          <b>REGRAS - TIPO DADO  (TD):</b><p></p>
+          <p>- Conte 1 TD para cada campo único reconhecido pelo usuário e não repetido, mantido ou recuperado de um ALI ou AIE.</p>
+          <p>- Há casos em que vários campos implementam apenas 1 TD. Exemplo: Data (dia, mês e ano).</p>
+          <p>- Campos calculados e armazenados em um ALI também são contados como 1 TD.</p>
+          <p>- Conte apenas os campos utilizados pela aplicação em análise.</p>
+          <p>- Quando um único arquivo lógico é composto por mais de uma tabela no banco de dados, a chave estrangeira usada para estabelecer o relacionamento entre estas tabelas não deve ser contada mais de uma vez como TD.</p>
+          <p>- Caso a chave estrangeira seja composta por vários campos, todos eles devem ser contados como TD</p>
+          <hr />
+          <b>REGRAS - TIPO REGISTRO (TR):</b><p></p>
+          <p>- Conte 1 TR para cada subgrupo de um ALI ou AIE.</p>
+          <p>- Contar 1 TR para cada chave-primária presente no ALI/AIE.</p>
+          <p>- Caso o ALI/AIE contenha apenas a própria chave contar um único TR</p>
+          <p>- No caso de entidades dependentes, se puder existir a ocorrência da entidade principal sem o respectivo par na entidade dependente (ex: funcionários e dependentes), deve-se contar 2 TR, caso contrário, 1 TR.</p>
+          <p>- No caso de entidades supertipo e subtipo (generalização), cada uma delas é contada como 1 TR.</p>
+        </div>
+
+      </div>
+      </br>
+
+      <div class="section-header text-center">
+        <h4><b>Contagem Manual:</b></h4>
+      </div>
+      <hr class="light" />
+
+      <form>
+        <div id="MsgSucesso" class="alert alert-success alert-dismissable" role="alert" style="display: none;">
+        </div>
+        <div id="MsgErro" class="alert alert-danger" role="alert" style="display: none">
+        </div>
+        <div class="form-row justify-content-md-center">
+          <input type="hidden" id="contCod" value="0">
+          <div class="form-group col-md-2">
+            <label for="descricao" class="labinho">Descrição:</label>
+            <input type="text" class="form-control" id="descricao">
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="selTipo">Tipo:</label>
+            <select class="form-control" id="selTipo" onchange="calcComplexidade(); mudaIndo();" style="width: 80px;">
+            </select>
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="td">TD:</label>
+            <input type="number" min="0" max="50" class="form-control" id="td" onkeyup="calcComplexidade()" onclick="calcComplexidade()">
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="registro">AR / TR:</label>
+            <input type="number" min="0" max="50" class="form-control" id="registro" onkeyup="calcComplexidade()" onclick="calcComplexidade()">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="complexidade">Complexidade:</label>
+            <input type="text" class="form-control" id="complexidade" disabled>
+          </div>
+          
+          <div class="form-group col-md-2">
+            <label for="pf">Contribuição (PF):</label>
+            <input type="text" class="form-control" id="pf" disabled>
+          </div>
+
+          <div class="form-group col-md-1" style="padding-top: 42px;">
+              <a href="javascript:;" onclick="adicionarFuncao();" class="btn btn-primary">Adicionar</a>
+          </div>
+
+        </div>
+        
+      </form>
+      <hr class="light" />
+
+      <div class="form-row justify-content-md-center">
+        <div id="pnotajustado" class="pnotajustado form-group col-md-4"></div>
+      </div>
+
+      <hr class="light" />
+      </br>
+      <div class="form-group tabela">
+
+        <table class="table table-striped" id="tbContagem">
+            <thead>
+              <tr>
+                <td><b>Descrição</b></td>
+                <td><b>Tipo</b></td>
+                <td><b>TD</b></td>
+                <td><b>AR / TR</b></td>
+                <td><b>Complexidade</b></td>
+                <td><b>Contribuição</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbodyContagem">
+                <!--Aqui... carregado por ajax-->
+            </tbody>
+        </table>
+  
+      </div>
+
+      </br>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/contagemTela.js') }}"></script>
+
+{% endblock %}

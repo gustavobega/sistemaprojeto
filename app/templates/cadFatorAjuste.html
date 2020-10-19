@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="well text-center">
+        <h1>Calcular Fator de Ajuste</h1>
+    </div>
+    <hr class="light" />
+    <div class="form-group">
+  
+        <label>Projeto:</label>
+        
+        <select class="form-control"  id="proj" onchange="carregaPerguntas();" style="width: 300px;">
+          {% for row in results %}
+            <option value="{{row[0]}}">{{row[3]}}</option>
+          {% endfor %}
+        </select>
+        
+    </div>
+
+    <div class="form-group">
+      <h3> Tabela Perguntas</h3>
+    </div>
+
+    <div class="form-group">
+
+      <div class="table-responsive-md">
+        <table class="table table-striped" id="tbPerguntas">
+            <thead>
+              <tr>
+                <td><b>Pergunta</b></td>
+                <td><b>Peso (1-5)</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbodyPerguntas">
+                <!--Aqui... carregado por ajax-->
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+    </br>
+
+    <form class="form-inline nv">
+
+      <div class="form-group">
+
+        <label class="textoSoma">Nivel de Influência</label>
+        <input type="text" id="peso" class="campoPeso" value="0" name="somaPeso" disabled>
+
+      </div>
+
+    </form>
+    </br>
+    <div class="form-group">
+      <h4><b>Fator de Ajuste = (NI * 0,01 + 0,65)</b></h4>
+      <h4 id="valorFator" style="font-weight: bold;"></h4>
+    </div>
+
+    <div id="MsgSucesso" class="alert alert-success alert-dismissable" role="alert" style="display: none;">
+    </div>
+    <div id="MsgErro" class="alert alert-danger" role="alert" style="display: none">
+    </div>
+    <div class="text-center" id="carrega"></div>
+    <hr class="light" />
+    <div class="form-group text-center">
+      <a href="javascript:;" onclick="cadFatorAjuste();" class="btn btn-primary">Salvar</a>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/fatorAjuste.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="well text-center">
+        <h1>Estimativa - COCOMO</h1>
+    </div>
+    <hr class="light" />
+
+    <div class="form-row justify-content-md-center">
+        <div class="form-group col-md-3">
+          <label for="selProjeto">Projeto:</label>
+          <select class="form-control" id="selProjeto" onchange="calculaTipoDado();">
+            {% for row in results %}
+              <option value="{{row[0]}}">{{row[3]}}</option>
+            {% endfor %}
+          </select>
+        </div> 
+    </div>
+
+    <div>
+        <h3>Tabela Tipo Dado</h3>
+    </div>
+    <div class="tabela">
+        <table class="table table-striped tableDado" id="tbTipoDado">
+            <thead>
+            <tr>
+                <td><b>Descrição</b></td>
+                <td><b>Tipo</b></td>
+                <td><b>TD</b></td>
+                <td><b>AR / TR</b></td>
+                <td><b>Complexidade</b></td>
+                <td><b>Contribuição</b></td>
+            </tr>
+            </thead>
+            <tbody id="tbodyTipoDado">
+                <!--Aqui... carregado por ajax-->
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div>
+        <h3>Tabela Tipo Transação</h3>
+    </div>
+    <div class="tabela">
+        <table class="table table-striped tableTransacao" id="tbTipoTransacao">
+            <thead>
+              <tr>
+                <td><b>Descrição</b></td>
+                <td><b>Tipo</b></td>
+                <td><b>TD</b></td>
+                <td><b>AR / TR</b></td>
+                <td><b>Complexidade</b></td>
+                <td><b>Contribuição</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbodyTipoTransacao">
+                <!--Aqui... carregado por ajax-->
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <div id="pontosFuncao" class="pontosFuncao"></div>
+    <br />
+    <div class="form-row">
+        <div id="fatorajuste" class="fatorajuste form-group col-md-4"></div>
+    </div>
+    <br />
+    <div id="pontosFuncaoAjustado" class="pontosFuncao"></div>
+    <br />
+    <hr class="light" />
+    <div class="well text-center">
+        <h4>Escolha o Modelo COCOCO que Representa o seu Projeto </h4>
+    </div>
+    <hr class="light" />
+    <div class="modelos">
+        <div class="modelo">
+            
+            <label for="modelo">Modelo:</label>
+            <select class="form-control" id="modelo" onchange="trocaModelo()">
+                <option>Básico</option>
+                <option>Intermediário</option>
+            </select>
+            <br />
+            <label for="modo">Modo:</label>
+            <select class="form-control" id="modo" onchange="trocaModo()">
+                <option>Orgânico</option>
+                <option>Semi-Destacado</option>
+                <option>Embutido</option>
+            </select>
+            
+        </div>
+        <br />
+        <div class="informacao">
+
+            <div class="informacaoModeloBasico" id="basico">
+                <p><Strong>Modelo COCOMO Básico</Strong></p>
+                <p>Calcula o esforço do desenvolvimento de software em função do tamanho estimado do programa, expresso em linhas de código</p>
+                <p>Esta versão é aplicável à grande maioria dos projetos de software, de pequeno ou médio porte</p>
+                <p>É limitada por não considerar fatores que interferem no desenvolvimento do projeto, do tipo:</p>
+                <p>- Restrições de hardware </p>
+                <p>- Qualificação e experiência do pessoal de desenvolvimento</p>
+                <p>- Uso de ferramentas técnicas modernas, entre outros</p>
+            </div>
+            <div class="informacaoModeloIntermediario" id="intermediario" style="display: none;">
+                <p><Strong>Modelo COCOMO Intermediário</Strong></p>
+                <p>Calcula o esforço de desenvolvimento de software em função do tamanho do programa e de um conjunto de direcionadores de custo, alternativamente chamados atributos ou fatores de software, que incluem avaliações subjetivas do produto, do hardware, do pessoal e dos atributos do projeto</p>
+                <p>Característica de desenvolvimento de software que tem efeito aumentativo ou diminutivo na quantidade de esforço de desenvolvimento final do projeto</p>
+                <p>Exemplos:</p>
+                <p>- A experiência da equipe de projeto</p>
+                <p>- A confiabilidade requerida do software</p>
+            </div>
+
+            <div class="informacaoModoOrganico" id="organico">
+                <p><Strong>MODO ORGÂNICO</Strong></p>
+                <p>Projeto relativamente pequeno (até 50.000 LOC)</p>
+                <p>Equipes de software relativamente pequenas</p>
+                <p>Ambiente familiar</p>
+                <p>Maioria das pessoas ligadas ao projeto</p>
+                <p>- com grande experiência em trabalhar com sistemas relacionados a organização</p>
+                <p>- com um entendimento direto de como o sistema contribuirá para os objetivos da organização</p>
+                <p>Ambiente de desenvolvimento relativamente estável com pouca necessidade de inovação</p>
+                <p>Inexistência de requisitos de entrega rígidos</p>
+                <p>Uso de algoritmos simples</p>
+            </div>
+            <div class="informacaoModoSemi" id="semi" style="display: none;">
+                <p><Strong>MODO SEMI-DESTACADO</Strong></p>
+                <p>Também chamado de modo difuso</p>
+                <p>representa um estágio intermediário entre os modos orgânico e embutido</p>
+                <p>Características:</p>
+                <p>- Todos os membros da equipe tem um nível intermediário de experiência com sistemas relacionados ou</p>
+                <p>- A equipe tem uma grande mistura de pessoas experientes e inexperientes ou</p>
+                <p>- Os membros tem experiência relacionada somente com alguns aspectos do sistema</p>
+                <p>O sistema tem alguns requisitos funcionais e de interface  rigorosos e alguns flexíveis</p>
+            </div>
+            <div class="informacaoModoEmbutido" id="embutido" style="display: none;">
+                <p><Strong>MODO EMBUTIDO</Strong></p>
+                <p>Também conhecido como modo restrito</p>
+                <p>O principal fator que distingue um projeto de software de modo embutido é a necessidade de seguir restrições rigorosas</p>
+                <p>O produto deve operar com (está embutido em) rígido complexo de hardware, software, regulamentos e procedimentos operacionais acoplados </p>
+                <p>São projetos relativamente grandes com muita necessidade de inovação</p>
+                <p>Muito esforço em acomodar alterações e corrigir erros</p>
+                <p>Muito esforço para assegurar que o software realmente atende às especificações (alto custo de VV&T) e para assegurar que as alterações são feitas corretamente (alto custo de gerenciamento de configuração)</p>
+                <p>Exemplos de projetos do modo embutido são:</p>
+                <p>- Projeto de sistema de transferência eletrônica de fundos</p>
+                <p>- Projeto de sistema de controle de tráfego aéreo</p>
+            </div>
+
+        </div>
+        
+    </div>
+    <br />
+    <hr class="light" />
+    <div class="form-row justify-content-md-center">
+        <div class="form-group col-md-2">
+            <label for="loc">LOC:</label>
+            <input type="text" class="form-control" id="loc" disabled>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="kloc">KLOC:</label>
+            <input type="text" class="form-control" id="kloc" disabled>
+        </div> 
+
+        <div class="form-group col-md-2">
+            <label for="esforco">Esforço:</label>
+            <input type="text" class="form-control" id="esforco" disabled>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="prazo">Prazo:</label>
+            <input type="text" class="form-control" id="prazo" disabled>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="produtividade">Produtividade:</label>
+            <input type="text" class="form-control" id="produtividade" disabled> 
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="tam">Tamanho da Equipe:</label>
+            <input type="text" class="form-control" id="tam" disabled>
+        </div>
+    </div>
+
+</div> 
+    
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/estimativa.js') }}"></script>
+
+{% endblock %}

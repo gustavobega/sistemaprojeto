@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'csspadrao.css') }}">
+  <!-- tirar erro -->
+  <link rel="icon" href="data:;base64,=">
+
+  <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="/"><img src="../static/img/metricas.png" class="logo"/> MS Gestor</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fa fa-fw fa-home"></i>Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="CadastroEmpresa"><i class="fa fa-fw fa-user-plus"></i>Cadastrar</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="cadastroEmpresa"><i class="fa fa-fw fa-building"></i>Empresa</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="cadastroProjeto"><i class="fa fa-fw fa-handshake"></i>Projeto</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="cadastroFuncao"><i class="fa fa-fw fa-university"></i>Função</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="crudTipo"><i class="fa fa-fw fa-random"></i>Tipo</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="crudTipoContagem"><i class="fa fa-fw fa-retweet"></i>Tipo Contagem</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="cadPergunta"><i class="fa fa-fw fa-question-circle"></i>Caracteristica Gerais do Sistema</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="cadastroLinguagem"><i class="fa fa-fw fa-globe"></i>Linguagem</a>
+                    </div>
+
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/fatorAjuste"><i class="fa fa-fw fa-industry"></i>Fator de Ajuste</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="CadastroEmpresa"><i class="fa fa-fw fa-calculator"></i>Contagem</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="contagemModelo"><i class="fa fa-fw fa-database"></i>Banco</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="contagemTela"><i class="fa fa-fw fa-desktop"></i>Tela</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="contagemScript"><i class="fa fa-fw fa-list-alt"></i>Script</a>
+                  </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/estimativa"><i class="fa fa-fw fa-chevron-circle-up"></i>Estimar</a>
+                </li>
+
+                <li class="nav-item" id="login">
+                    <a class="nav-link" href="/Login">
+                        <i class="fa fa-fw fa-user"></i>
+                        Logar
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+</br>
+<main>
+    {% block content %} {% endblock %}
+</main>
+</br>
+<!-- Footer -->
+<footer class="navbar-dark bg-dark">
+
+  <div class="container-fluid padding">
+      <div class="row text-center">
+
+          <div class="col-12">
+           
+              <h5>&copy; msGestor@msGestor.com.br</h5>
+          </div>
+
+      </div>
+  </div>
+
+</footer>
+<!-- Footer -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+{% block script %} {% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% block body %}
+    <div class="container">
+
+      <div class="well text-center">
+        <h1>TIPO</h1>
+      </div>
+      <hr class="light" />
+   
+    <div class="container">
+      <div class="row">
+        <div class="col md-12">
+          <h2>Lista de Tipo<button type="button" class="btn btn-success float-right" 
+            data-toggle="modal" data-target="#mymodal">
+            Adicionar Tipo</button></h2>
+
+            {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+            {% for message in  messages %}
+
+            <div class="alert alert-success alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">x</span>
+              </button>
+              {{message}}
+            </div>
+            
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+
+            <table class="table table-striped">
+              <tr>
+                <td>Id</td>
+                <td>Descricao</td>
+                <td>Tipo Contagem</td>
+              </tr>
+              
+              
+              {% for i in range (tam) %}
+              <tr>
+
+                <td>{{results[i][0]}}</td>
+                <td>{{results[i][1]}}</td>
+                <td>{{lista[i]}}</td>
+                <td>
+                  <a href="/alterartp/{{ results[i][0] }}" data-toggle="modal" data-target="#modaledit{{results[i][0]}}">
+                    <img class="fa fa-fw fa-edit" />
+                  </a>
+                  <a href="/deletartp/{{ results[i][0] }}" onclick="return confirm('Confirmar Exclusão?')">
+                    <img class="fa fa-fw fa-trash-alt" />
+                  </a>
+                </td>
+              </tr>
+
+              <div class="modal fade" tabindex="-1" id="modaledit{{results[i][0]}}" role="dialog">
+
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Altere o Tipo</h4>
+                      <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+        
+                      <form action="{{url_for('tipo.alterartp')}}" method="POST">
+        
+                        <div class="form-group">
+        
+                          <label>Descrição:</label>
+                          <input type="hidden" name="id" value="{{results[i][0]}}">
+                          <input type="text" class="form-control" name="descricao" value="{{results[i][1]}}">
+
+                        </div>
+
+                        <div class="form-group">
+
+                          <label>Tipo de Contagem:</label>
+                          
+                          <select class="form-control" name="tc">
+                            {% for row in results3 %}
+                              <option value="{{row[0]}}">{{row[1]}}</option>
+                            {% endfor %}
+                          </select>
+                          
+                        </div>
+
+                        <div class="form-group">
+        
+                          <button class="btn btn-primary" type="submit">Alterar</button>
+        
+                        </div>
+        
+                      </form>
+        
+                    </div>
+        
+                    <div class="modal-footer">
+        
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+              {%endfor%}
+            </table>
+        </div>
+      </div>
+
+      <div class="modal fade" id="mymodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Insira o Tipo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('tipo.inserttp')}}" method="POST">
+
+                <div class="form-group">
+
+                  <label>Descrição:</label>
+                  <input type="text" class="form-control" name="descricao" required="1">
+
+                </div>
+
+                <div class="form-group">
+
+                  <label>Tipo de Contagem:</label>
+                  
+                  <select class="form-control" name="tc">
+                    {% for row in results3 %}
+                    <option value="{{row[0]}}">{{row[1]}}</option>
+                    {% endfor %}
+                  </select>
+                  
+                </div>
+
+                <div class="form-group">
+
+                  <button class="btn btn-primary" type="submit">Inserir</button>
+
+                </div>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+ {% endblock %}
+
+ {% endblock %}

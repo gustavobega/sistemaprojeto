@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="well text-center">
+        <h1>Função</h1>
+    </div>
+    <hr class="light" />
+    <div class="container">
+
+        <div class="row">
+          <div class="col md-12">
+            <h2>Lista de Tipo<button type="button" class="btn btn-success float-right" 
+              data-toggle="modal" data-target="#mymodal">
+              Adicionar Função</button></h2>
+  
+              {% with messages = get_flashed_messages() %}
+  
+              {% if messages %}
+  
+              {% for message in  messages %}
+  
+              <div class="alert alert-success alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                  <span aria-hidden="true">x</span>
+                </button>
+                {{message}}
+              </div>
+              
+              {%endfor%}
+              {%endif%}
+              {%endwith%}
+  
+              <table class="table table-striped">
+                <tr>
+                  <td>Id</td>
+                  <td>Nome</td>
+                  <td>Tipo</td>
+                  <td>Projeto</td>
+                </tr>
+                
+                
+                {% for i in range (tam) %}
+                <tr>
+  
+                  <td>{{results[i][0]}}</td>
+                  <td>{{results[i][2]}}</td>
+                  <td>{{results[i][5]}}</td>
+                  <td>{{lista[i]}}</td>
+                  <td>
+                    <a href="/alterarfuncao/{{ results[i][0] }}" data-toggle="modal" data-target="#modaledit{{results[i][0]}}">
+                      <img class="fa fa-fw fa-edit" />
+                    </a>
+                    <a href="/deletarfuncao/{{ results[i][0] }}" onclick="return confirm('Confirmar Exclusão?')">
+                      <img class="fa fa-fw fa-trash-alt" />
+                    </a>
+                  </td>
+                </tr>
+  
+                <div class="modal fade" id="modaledit{{results[i][0]}}" role="dialog">
+  
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Altere a Função</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+          
+                        <form action="{{url_for('funcao.alterarfuncao')}}" method="POST">
+          
+                          <div class="form-group">
+          
+                            <label>Nome:</label>
+                            <input type="hidden" name="id" value="{{results[i][0]}}">
+                            <input type="text" class="form-control" name="nome" value="{{results[i][2]}}">
+  
+                          </div>
+
+                          <div class="form-group">
+  
+                            <label>Opção:</label>
+                            </br>
+                            <input type="radio" name="options" id="option1" value="M"> Modelo </input>
+                            <br>
+                            <input type="radio" name="options" id="option2" value="S"> Script </input>
+                            <br>
+                            <input type="radio" name="options" id="option3" value="T"> Tela </input>
+          
+                          </div>
+
+                          <div class="form-group">
+  
+                            <label>Caminho Arquivo:</label>
+                            
+                            <input type="file" class="form-control" id="caminho" value="{{results[i][4]}}" required="1">
+                            
+                          </div>
+
+                          <div class="form-group">
+  
+                            <label>Projeto:</label>
+                            
+                            <select class="form-control"  name="proj">
+                              {% for row in results3 %}
+                                <option value="{{row[0]}}">{{row[3]}}</option>
+                              {% endfor %}
+                            </select>
+                            
+                          </div>
+  
+                          <div class="form-group">
+          
+                            <button class="btn btn-primary" type="submit">Alterar</button>
+          
+                          </div>
+          
+                        </form>
+          
+                      </div>
+          
+                      <div class="modal-footer">
+          
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+  
+                {%endfor%}
+              </table>
+          </div>
+        </div>
+
+        <div class="modal fade" id="mymodal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Insira a Função</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('funcao.insertfuncao')}}" method="POST">
+  
+                  <div class="form-group">
+  
+                    <label>Nome:</label>
+                    <input type="text" class="form-control" id="nome" required="1">
+  
+                  </div>
+
+                  <div class="form-group">
+  
+                    <label>Opção:</label>
+                    </br>
+                    <input type="radio" name="options" id="option1" value="M"> Modelo </input>
+                    <br>
+                    <input type="radio" name="options" id="option2" value="S"> Script </input>
+                    <br>
+                    <input type="radio" name="options" id="option3" value="T"> Tela </input>
+  
+                  </div>
+  
+                  <div class="form-group">
+  
+                    <label>Arquivo:</label>
+                    
+                    <input type="file" class="form-control" id="arquivo" required="1">
+                    
+                  </div>
+
+                  <div class="form-group">
+  
+                    <label>Projeto:</label>
+                    
+                    <select class="form-control" id="proj">
+                        {% for row in results3 %}
+                        <option value="{{row[0]}}">{{row[3]}}</option>
+                        {% endfor %}
+                      </select>
+                    
+                  </div>
+  
+                  <div class="form-group">
+                    <a href="javascript:;" onclick="cadFuncao();" class="btn btn-primary">Inserir</a>
+                  </div>
+  
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+   </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/funcao.js') }}"></script>
+
+{% endblock %}

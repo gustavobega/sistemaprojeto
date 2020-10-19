@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="well text-center">
+        <h1>Contagem Banco - Modelo</h1>
+    </div>
+    <hr class="light" />
+    <form>
+
+      <div class="form-row">
+
+        <div class="form-group col-md-3">
+          <label for="selProjeto">Projeto:</label>
+          <select class="form-control" id="selProjeto" onchange="carregaFuncoes(); limpaInput();">
+            {% for row in results %}
+              <option value="{{row[0]}}">{{row[3]}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="selFuncao">Função:</label>
+          <select class="form-control" id="selFuncao" onchange="carregaFoto(); limpaInput();">
+          </select>
+        </div>
+
+      </div>
+
+    </form>
+    <div class="alert alert-warning" id="warning" role="alert" style="width: 100%; display: none;">
+      Já Existe contagem para o tipo dado, caso queira realizar a contagem pelo modelo, retire as contagens do script.
+    </div>
+    <div id="desabilita">
+
+      <div class="tudo">
+
+        <div class="menu">
+          <img class="imagem" id="imageoption" />
+        </div>
+        <label style="padding-left: 25px;">Regras de Contagem:</label>
+
+        <div class="conteudo2" id="c2">
+          <b>Arquivo Lógico Interno (ALI).</b><p></p>
+          <p>Arquivo Lógico Interno (ALI) – é um grupo de dados de controle, logicamente relacionado, identificável pelo Usuário, mantido na fronteira da aplicação.</p>
+          <b>EXEMPLO:</b><p></p>
+          <p>- Arquivo de clientes, de produtos, de funcionários, de dependentes;</p> 
+           - Arquivo de controle de acesso à aplicação;<p></p>
+          <p>- Tabela de configuração mantida pela aplicação, entre outros.</p>
+          <p><b>Não são consideradas ALI:</b></p>
+          <p>- arquivos temporários;</p>
+          <p>- arquivos de classificação;</p>
+          <p>- arquivos incluídos por motivos de tecnologia</p>
+          <p>- arquivos de índices para melhorar a performance na recuperação dos dados</p>
+          <p>- visões de base de dados</p>
+          <p>- arquivos de backup</p>
+          <hr />
+          <b>REGRAS - TIPO DADO  (TD):</b><p></p>
+          <p>- Conte 1 TD para cada campo único reconhecido pelo usuário e não repetido, mantido ou recuperado de um ALI ou AIE.</p>
+          <p>- Há casos em que vários campos implementam apenas 1 TD. Exemplo: Data (dia, mês e ano).</p>
+          <p>- Campos calculados e armazenados em um ALI também são contados como 1 TD.</p>
+          <p>- Conte apenas os campos utilizados pela aplicação em análise.</p>
+          <p>- Quando um único arquivo lógico é composto por mais de uma tabela no banco de dados, a chave estrangeira usada para estabelecer o relacionamento entre estas tabelas não deve ser contada mais de uma vez como TD.</p>
+          <p>- Caso a chave estrangeira seja composta por vários campos, todos eles devem ser contados como TD</p>
+          <hr />
+          <b>REGRAS - TIPO REGISTRO (TR):</b><p></p>
+          <p>- Conte 1 TR para cada subgrupo de um ALI ou AIE.</p>
+          <p>- Contar 1 TR para cada chave-primária presente no ALI/AIE.</p>
+          <p>- Caso o ALI/AIE contenha apenas a própria chave contar um único TR</p>
+          <p>- No caso de entidades dependentes, se puder existir a ocorrência da entidade principal sem o respectivo par na entidade dependente (ex: funcionários e dependentes), deve-se contar 2 TR, caso contrário, 1 TR.</p>
+          <p>- No caso de entidades supertipo e subtipo (generalização), cada uma delas é contada como 1 TR.</p>
+        </div>
+
+        <div class="conteudo3" id="c3" style="display: none;">
+          <b>Arquivo de Interface Externa (AIE).</b><p></p>
+          <p>Arquivo de Interface Externa (AIE) – é um agrupamento logicamente relacionado de dados de controle que é apenas referenciado (lido) pela aplicação.</p>
+          <b>EXEMPLO:</b><p></p>
+          <p>- Arquivos de movimentos recebidos de outra aplicação para manter um ALI.</p> 
+          <p><b>Não são consideradas AIE:</b></p>
+          <p>- Dados mantidos pela aplicação e utilizados por outra aplicação;</p>
+          <p>- Dados formatados e processados para uso de outras aplicações.</p>
+        </div>
+
+      </div>
+      </br>
+
+      <div class="section-header text-center">
+        <h4><b>Contagem Manual:</b></h4>
+      </div>
+      <hr class="light" />
+
+      <form>
+        <div id="MsgSucesso" class="alert alert-success alert-dismissable" role="alert" style="display: none;">
+        </div>
+        <div id="MsgErro" class="alert alert-danger" role="alert" style="display: none">
+        </div>
+        <div class="form-row justify-content-md-center">
+          <input type="hidden" id="contCod" value="0">
+          <div class="form-group col-md-2">
+            <label for="descricao" class="labinho">Descrição:</label>
+            <input type="text" class="form-control" id="descricao">
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="selTipo">Tipo:</label>
+            <select class="form-control" id="selTipo" onchange="calcComplexidade(); mudaIndo();" style="width: 80px;">
+            </select>
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="td">TD:</label>
+            <input type="number" min="0" max="50" class="form-control" id="td" onkeyup="calcComplexidade()" onclick="calcComplexidade()">
+          </div>
+
+          <div class="form-group col-md-1">
+            <label for="registro">AR / TR:</label>
+            <input type="number" min="0" max="50" class="form-control" id="registro" onkeyup="calcComplexidade()" onclick="calcComplexidade()">
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="complexidade">Complexidade:</label>
+            <input type="text" class="form-control" id="complexidade" disabled>
+          </div>
+          
+          <div class="form-group col-md-2">
+            <label for="pf">Contribuição (PF):</label>
+            <input type="text" class="form-control" id="pf" disabled>
+          </div>
+
+          <div class="form-group col-md-1" style="padding-top: 42px;">
+              <a href="javascript:;" onclick="adicionarFuncao();" class="btn btn-primary">Adicionar</a>
+          </div>
+
+        </div>
+        
+      </form>
+
+      <hr class="light" />
+      <div class="form-row justify-content-md-center">
+        <div id="pnotajustado" class="pnotajustado form-group col-md-4"></div>
+      </div>
+      <hr class="light" />
+    
+      </br>
+
+      <div class="form-group">
+
+        <table class="table table-striped" id="tbContagem">
+            <thead>
+              <tr>
+                <td><b>Descrição</b></td>
+                <td><b>Tipo</b></td>
+                <td><b>TD</b></td>
+                <td><b>AR / TR</b></td>
+                <td><b>Complexidade</b></td>
+                <td><b>Contribuição</b></td>
+              </tr>
+            </thead>
+            <tbody id="tbodyContagem">
+                <!--Aqui... carregado por ajax-->
+            </tbody>
+        </table>
+  
+      </div>
+    </div>
+      
+      </br>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ url_for('static', filename= 'javascript/contagemModelo.js') }}"></script>
+
+{% endblock %}
