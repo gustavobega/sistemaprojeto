@@ -1,16 +1,20 @@
 from . import contagemS
 from app import conn
-from flask import render_template,request
+from flask import render_template,request, url_for, redirect
 from flask import jsonify, make_response,json
+from flask import session
 from werkzeug.utils import secure_filename
 
 @contagemS.route("/contagemScript", methods=["GET", "POST"])
 def contagemScript():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
-    results = cursor.fetchall()
+    if session.get("USERNAME", None) is not None: 
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        results = cursor.fetchall()
 
-    return render_template('contScript.html', results=results)
+        return render_template('contScript.html', results=results)
+    else:
+        return redirect(url_for("login.sign_in"))
 
 @contagemS.route("/contagemScript/retornaFuncao/<string:codProj>", methods=["GET"])
 def retornaFuncao(codProj):

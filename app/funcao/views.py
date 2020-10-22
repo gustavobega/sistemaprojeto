@@ -2,35 +2,40 @@ from . import funcao
 from app import conn,app
 from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
+from flask import session
 import os
 from werkzeug.utils import secure_filename
 
 @funcao.route("/cadastroFuncao", methods=["GET", "POST"])
 def cadFuncao():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bancoprojeto2020.funcao")
-    results = cursor.fetchall()
-    lista = []
+    if session.get("USERNAME", None) is not None:  
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.funcao")
+        results = cursor.fetchall()
+        lista = []
 
-    #pega o codigo do projeto do banco e adiciona na lista o projeto daquele codigo
-    for row in results:
-        cod = row[1]
-        cursor2 = conn.cursor()
-        cursor2.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s", (cod))
-        results2 = cursor2.fetchone()
-        tc_nome = results2[3]
+        #pega o codigo do projeto do banco e adiciona na lista o projeto daquele codigo
+        for row in results:
+            cod = row[1]
+            cursor2 = conn.cursor()
+            cursor2.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s", (cod))
+            results2 = cursor2.fetchone()
+            tc_nome = results2[3]
 
-        lista.append(tc_nome)
+            lista.append(tc_nome)
+    
 
-    #pega os projetos para utilizar na hora de alterar 
-    select = "SELECT * FROM bancoprojeto2020.projeto"
-    cursor3 = conn.cursor()
-    cursor3.execute(select)
-    results3 = cursor3.fetchall()
+        #pega os projetos para utilizar na hora de alterar 
+        select = "SELECT * FROM bancoprojeto2020.projeto"
+        cursor3 = conn.cursor()
+        cursor3.execute(select)
+        results3 = cursor3.fetchall()
 
-    tam = len(lista)
+        tam = len(lista)
 
-    return render_template('cadFuncao.html', results=results, results3=results3, lista=lista, tam=tam)
+        return render_template('cadFuncao.html', results=results, results3=results3, lista=lista, tam=tam)
+    else:
+         return redirect(url_for("login.sign_in"))
 
 @funcao.route("/funcao/cadFuncao",methods=["POST"])
 def insertfuncao():

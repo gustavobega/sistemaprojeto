@@ -2,20 +2,24 @@ from . import fatorA
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
+from flask import session
 
 @fatorA.route("/fatorAjuste", methods=["GET", "POST"])
 def calcFatorAjuste():
-    select = "SELECT * FROM bancoprojeto2020.projeto"
-    cursor = conn.cursor()
-    cursor.execute(select)
-    results = cursor.fetchall()
+    if session.get("USERNAME", None) is not None:   
+        select = "SELECT * FROM bancoprojeto2020.projeto"
+        cursor = conn.cursor()
+        cursor.execute(select)
+        results = cursor.fetchall()
 
-    select2 = "SELECT * FROM bancoprojeto2020.fatorajusteperguntas"
-    cursor2 = conn.cursor()
-    cursor2.execute(select2)
-    results2 = cursor2.fetchall()
+        select2 = "SELECT * FROM bancoprojeto2020.fatorajusteperguntas"
+        cursor2 = conn.cursor()
+        cursor2.execute(select2)
+        results2 = cursor2.fetchall()
 
-    return render_template('cadFatorAjuste.html', results=results, results2=results2)
+        return render_template('cadFatorAjuste.html', results=results, results2=results2)
+    else:
+        return redirect(url_for("login.sign_in"))
 
 @fatorA.route("/fatorAjuste/retornaPerguntas/<string:codProj>", methods=["GET"])
 def retornaPerguntas(codProj):

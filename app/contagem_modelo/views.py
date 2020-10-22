@@ -2,14 +2,18 @@ from . import contagemM
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
+from flask import session
 
 @contagemM.route("/contagemModelo", methods=["GET", "POST"])
 def contagemBancoModelo():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
-    results = cursor.fetchall()
+    if session.get("USERNAME", None) is not None: 
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        results = cursor.fetchall()
 
-    return render_template('contBancoModelo.html', results=results)
+        return render_template('contBancoModelo.html', results=results)
+    else:
+        return redirect(url_for("login.sign_in"))
 
 @contagemM.route("/contagemModelo/retornaFuncao/<string:codProj>", methods=["GET"])
 def retornaFuncao(codProj):

@@ -16,8 +16,9 @@ def insertemp():
        nome = request.form['nome'] 
        email = request.form['email'] 
        cnpj = request.form['cnpj'] 
+       senha = request.form['senha'] 
        cursor = conn.cursor()
-       cursor.execute("INSERT INTO bancoprojeto2020.empresa (Emp_Nome,Emp_Email,Emp_CNPJ) VALUES (%s,%s,%s)",(nome,email,cnpj))
+       cursor.execute("INSERT INTO bancoprojeto2020.empresa (Emp_Nome,Emp_Email,Emp_CNPJ,Emp_Senha) VALUES (%s,%s,%s,%s)",(nome,email,cnpj,senha))
        conn.commit()
        flash("Cadastrado com Sucesso!")
        cursor.close()

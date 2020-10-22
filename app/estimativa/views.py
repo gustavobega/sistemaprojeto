@@ -1,15 +1,19 @@
 from . import estimativa
 from app import conn
-from flask import render_template
+from flask import render_template, redirect, url_for
 from flask import jsonify, make_response,json
+from flask import session
 
 @estimativa.route("/estimativa")
 def estimar():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
-    results = cursor.fetchall()
-    
-    return render_template("estimativa.html", results=results)
+    if session.get("USERNAME", None) is not None:  
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        results = cursor.fetchall()
+        
+        return render_template("estimativa.html", results=results)
+    else:
+        return redirect(url_for("login.sign_in"))
 
 @estimativa.route("/estimativa/obtemContagemTipoDado/<string:codProj>", methods=["GET"])
 def obtemContagemTipoDado(codProj):

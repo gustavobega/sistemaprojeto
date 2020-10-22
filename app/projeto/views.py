@@ -1,53 +1,57 @@
 from . import projeto
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
+from flask import session
 
 @projeto.route("/cadastroProjeto",methods=["GET", "POST"])
 def cadProjeto():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
-    results = cursor.fetchall()
+    if session.get("USERNAME", None) is not None:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        results = cursor.fetchall()
 
-    lista = []
-    lista2 = []
+        lista = []
+        lista2 = []
 
-    #pega o codigo do tipo de contagem do banco e adiciona na lista o tipo de contagem daquele codigo
-    for row in results:
-        cod = row[1]
-        codemp = row[2]
-        cursor2 = conn.cursor()
-        cursor3 = conn.cursor()
-        cursor2.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
-        cursor3.execute("SELECT * FROM bancoprojeto2020.empresa WHERE Emp_Cod=%s", (codemp))
-        results2 = cursor2.fetchone()
-        results3 = cursor3.fetchone()
-        tc_descricao = results2[1]
-        emp_nome = results3[1]
+        #pega o codigo do tipo de contagem do banco e adiciona na lista o tipo de contagem daquele codigo
+        for row in results:
+            cod = row[1]
+            codemp = row[2]
+            cursor2 = conn.cursor()
+            cursor3 = conn.cursor()
+            cursor2.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
+            cursor3.execute("SELECT * FROM bancoprojeto2020.empresa WHERE Emp_Cod=%s", (codemp))
+            results2 = cursor2.fetchone()
+            results3 = cursor3.fetchone()
+            tc_descricao = results2[1]
+            emp_nome = results3[1]
 
-        lista.append(tc_descricao)
-        lista2.append(emp_nome)
+            lista.append(tc_descricao)
+            lista2.append(emp_nome)
 
-    #pega os tipos de contagem para utilizar na hora de alterar 
-    select = "SELECT * FROM bancoprojeto2020.tipocontagem"
-    cursor4 = conn.cursor()
-    cursor4.execute(select)
-    results4 = cursor4.fetchall()
+        #pega os tipos de contagem para utilizar na hora de alterar 
+        select = "SELECT * FROM bancoprojeto2020.tipocontagem"
+        cursor4 = conn.cursor()
+        cursor4.execute(select)
+        results4 = cursor4.fetchall()
 
-    #pega as empresas para utilizar na hora de alterar 
-    select = "SELECT * FROM bancoprojeto2020.empresa"
-    cursor5 = conn.cursor()
-    cursor5.execute(select)
-    results5 = cursor5.fetchall()
+        #pega as empresas para utilizar na hora de alterar 
+        select = "SELECT * FROM bancoprojeto2020.empresa"
+        cursor5 = conn.cursor()
+        cursor5.execute(select)
+        results5 = cursor5.fetchall()
 
-    #pega as linguagens para utilizar na hora de alterar 
-    select = "SELECT * FROM bancoprojeto2020.linguagem"
-    cursor6 = conn.cursor()
-    cursor6.execute(select)
-    results6 = cursor6.fetchall()
+        #pega as linguagens para utilizar na hora de alterar 
+        select = "SELECT * FROM bancoprojeto2020.linguagem"
+        cursor6 = conn.cursor()
+        cursor6.execute(select)
+        results6 = cursor6.fetchall()
 
-    tam = len(lista)
+        tam = len(lista)
 
-    return render_template('cadProjeto.html', results=results, results4=results4, results5=results5,results6=results6, lista=lista, lista2=lista2, tam=tam)
+        return render_template('cadProjeto.html', results=results, results4=results4, results5=results5,results6=results6, lista=lista, lista2=lista2, tam=tam)
+    else:
+        return redirect(url_for("login.sign_in"))
 
 @projeto.route("/insertproj",methods=["GET", "POST"])
 def insertproj():
