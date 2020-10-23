@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 def contagemScript():
     if session.get("USERNAME", None) is not None: 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID')))
         results = cursor.fetchall()
 
         return render_template('contScript.html', results=results)

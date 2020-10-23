@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="well text-center">
+      <h1>Cadastro Empresa</h1>
+    </div>
+    <hr class="light" />
+    <form action="{{url_for('empresa.insertemp')}}" method="POST">
+        
+      <div class="form-row justify-content-md-center">
+          <div class="col-md-3">
+              <label>Nome:</label>
+              <input type="text" class="form-control" name="nome" required="1">
+          </div>
+      </div>
+
+      <div class="form-row justify-content-md-center">
+        <div class="col-md-3">
+          <label>Email:</label>
+          <input type="text" class="form-control" name="email" required="1">
+        </div>
+      </div>
+
+      <div class="form-row justify-content-md-center">
+        <div class="col-md-3">
+            <label>CNPJ:</label>
+            <input type="text" class="form-control" name="cnpj" required="1" onkeypress="$(this).mask('00.000.000/0000-00')">
+        </div>
+      </div>
+
+      <div class="form-row justify-content-md-center">
+        <div class="col-md-3">
+            <label>Senha:</label>
+            <input type="password" class="form-control" name="senha" required="1">
+        </div>
+      </div>
+      <hr class="light" />
+        <div class="text-center">
+          <button class="btn btn-primary" type="submit">Inserir</button>
+        </div>
+
+      </form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+{% endblock %}

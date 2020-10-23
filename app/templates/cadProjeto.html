@@ -39,7 +39,6 @@
                 <td>Id</td>
                 <td>Nome</td>
                 <td>Gerente</td>
-                <td>Empresa</td>
                 <td>Tipo Contagem</td>
                 <td>Data Inicio</td>
               </tr>
@@ -51,7 +50,6 @@
                 <td>{{results[i][0]}}</td>
                 <td>{{results[i][3]}}</td>
                 <td>{{results[i][7]}}</td>
-                <td>{{lista2[i]}}</td>
                 <td>{{lista[i]}}</td>
                 <td>{{results[i][8]}}</td>
                 <td>
@@ -90,17 +88,6 @@
           
                               <label>Gerente:</label>
                               <input type="text" class="form-control" name="gerente" value="{{results[i][7]}}">
-            
-                          </div>
-          
-                          <div class="form-group">
-          
-                              <label>Empresa:</label>
-                              <select class="form-control" name="emp">
-                                  {% for row in results5 %}
-                                  <option value="{{row[0]}}">{{row[1]}}</option>
-                                  {% endfor %}
-                              </select>
             
                           </div>
           
@@ -230,17 +217,6 @@
 
                 <div class="form-group">
 
-                    <label>Empresa:</label>
-                    <select class="form-control" name="emp">
-                        {% for row in results5 %}
-                        <option value="{{row[0]}}">{{row[1]}}</option>
-                        {% endfor %}
-                    </select>
-  
-                </div>
-
-                <div class="form-group">
-
                     <label>Descrição:</label>
                     <input type="text" class="form-control" name="descricao" required="1">
   
@@ -260,20 +236,6 @@
 
                 <div class="form-group">
 
-                    <label>Tempo Contagem:</label>
-                    <input type="text" class="form-control" name="tempocontagem" required="1">
-  
-                </div>
-
-                <div class="form-group">
-
-                    <label>Tempo Real:</label>
-                    <input type="text" class="form-control" name="temporeal" required="1">
-  
-                </div>
-
-                <div class="form-group">
-
                     <label>Data Inicio:</label>
                     <input type="date" class="form-control" name="datainicio" required="1" style="width: 150px;">
   
@@ -283,20 +245,6 @@
 
                     <label>Data Prevista:</label>
                     <input type="date" class="form-control" name="dataprevista" required="1" style="width: 150px;">
-  
-                </div>
-
-                <div class="form-group">
-
-                    <label>Data Termino:</label>
-                    <input type="date" class="form-control" name="datatermino" required="1" style="width: 150px;">
-  
-                </div>
-
-                <div class="form-group">
-
-                    <label>FCT:</label>
-                    <input type="text" class="form-control" name="fct" required="1">
   
                 </div>
 

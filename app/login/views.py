@@ -32,11 +32,15 @@ def sign_out():
 @login.route("/login/verificausuariologado")
 def verificausuariologado():
     operacao = True
+    usuario = ""
     if session.get("USERNAME", None) is None: 
         operacao = False
+    else:
+        usuario = session.get('USERNAME')
 
     return jsonify (
-        operacao=operacao
+        operacao=operacao,
+        usuario=usuario
     )
 
 

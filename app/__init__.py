@@ -8,7 +8,8 @@ app = Flask(__name__)
 wsgi_app = app.wsgi_app
 
 app.secret_key = "flash message"
-app.config['UPLOAD_FOLDER'] = 'app/static/uploads/' 
+app.config['UPLOAD_FOLDER'] = 'app/static/img/uploads/' 
+app.config['ALLOWED_IMAGE_EXTENSIONS'] = ['PNG', 'JPG', 'JPEG', 'GIF']
 
 conn = pymysql.connect(host='den1.mysql2.gear.host', port=3306, user='bancoprojeto2020',
     passwd='Jg5euFT~-q39',db='bancoprojeto2020', charset="utf8")
@@ -19,6 +20,9 @@ def default():
 
 from app.empresa import empresa as empresa_blueprint
 app.register_blueprint(empresa_blueprint)
+
+from app.cad_empresa import cad_empresa as cad_empresa_blueprint
+app.register_blueprint(cad_empresa_blueprint)
 
 from app.tipo import tipo as tipo_blueprint
 app.register_blueprint(tipo_blueprint)

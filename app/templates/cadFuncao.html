@@ -85,17 +85,17 @@
   
                             <label>Opção:</label>
                             </br>
-                            <input type="radio" name="options" id="option1" value="M"> Modelo </input>
+                            <input type="radio" name="options" id="option1" value="M" onclick="apareceFile();"> Modelo </input>
                             <br>
-                            <input type="radio" name="options" id="option2" value="S"> Script </input>
+                            <input type="radio" name="options" id="option2" value="S" onclick="escondeFile();"> Script </input>
                             <br>
-                            <input type="radio" name="options" id="option3" value="T"> Tela </input>
+                            <input type="radio" name="options" id="option3" value="T" onclick="apareceFile();"> Tela </input>
           
                           </div>
 
-                          <div class="form-group">
+                          <div class="form-group" id="arq">
   
-                            <label>Caminho Arquivo:</label>
+                            <label>Imagem:</label>
                             
                             <input type="file" class="form-control" id="caminho" value="{{results[i][4]}}" required="1">
                             
@@ -161,17 +161,17 @@
   
                     <label>Opção:</label>
                     </br>
-                    <input type="radio" name="options" id="option1" value="M"> Modelo </input>
+                    <input type="radio" name="options" id="option1" value="M" onclick="apareceFile();"> Modelo </input>
                     <br>
-                    <input type="radio" name="options" id="option2" value="S"> Script </input>
+                    <input type="radio" name="options" id="option2" value="S" onclick="escondeFile();"> Script </input>
                     <br>
-                    <input type="radio" name="options" id="option3" value="T"> Tela </input>
+                    <input type="radio" name="options" id="option3" value="T" onclick="apareceFile();"> Tela </input>
   
                   </div>
   
-                  <div class="form-group">
+                  <div class="form-group" id="arq">
   
-                    <label>Arquivo:</label>
+                    <label>Imagem:</label>
                     
                     <input type="file" class="form-control" id="arquivo" required="1">
                     

@@ -47,6 +47,8 @@ function carregaFoto(){
     document.getElementById('selProjeto').disabled = true
     document.getElementById('selFuncao').disabled = true
     document.getElementById('contCod').value = 0
+
+    foto = document.getElementById('imageoption')
     fetch(`${window.origin}/contagemModelo/retornaFoto/` + codF,{
 
       method: "GET",
@@ -61,12 +63,11 @@ function carregaFoto(){
       return obj
     })
     .then(function (dadosObj) {
-        foto = document.getElementById('imageoption')
-
+        
         if (dadosObj.operacao)
-          foto.src = '../static/uploads/' + dadosObj.dado[0]
+          foto.src = '../static/img/uploads/' + dadosObj.dado[0]
         else
-          foto.src = '../static/uploads/notFound.jpg' 
+          foto.src = '../static/img/uploads/notFound.jpg' 
 
         var select = document.getElementById('selFuncao')
         var descricao = select.options[select.selectedIndex].label
@@ -75,7 +76,7 @@ function carregaFoto(){
         retiratextos()
     })
     .catch(function () {
-      foto.src = '../static/uploads/notFound.jpg' 
+      foto.src = '../static/img/uploads/notFound.jpg' 
     })
 }
 

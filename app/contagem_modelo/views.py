@@ -1,5 +1,6 @@
 from . import contagemM
 from app import conn
+from app import app
 from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
 from flask import session
@@ -8,7 +9,7 @@ from flask import session
 def contagemBancoModelo():
     if session.get("USERNAME", None) is not None: 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM bancoprojeto2020.projeto")
+        cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID')))
         results = cursor.fetchall()
 
         return render_template('contBancoModelo.html', results=results)
@@ -46,7 +47,7 @@ def verificaContagem(codProj,codFunc):
     )
 
 @contagemM.route("/contagemModelo/retornaFoto/<string:codF>", methods=["GET"])
-def retornaFoto2(codF):
+def retornaFoto(codF):
     cursor = conn.cursor()
     cursor.execute("SELECT Fun_Caminho FROM bancoprojeto2020.funcao WHERE Fun_Cod=%s", (codF))
     results = cursor.fetchall()
@@ -59,7 +60,7 @@ def retornaFoto2(codF):
         operacao=operacao,
         dado=results
     )
-
+        
 @contagemM.route("/contagemModelo/retornaTipoCont/<string:codProj>", methods=["GET"])
 def retornaTipo2(codProj):
     cursor = conn.cursor()

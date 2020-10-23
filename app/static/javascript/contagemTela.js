@@ -58,9 +58,9 @@ function carregaFoto(){
         foto = document.getElementById('imageoption')
 
         if (dadosObj.operacao)
-          foto.src = '../static/uploads/' + dadosObj.dado[0]
+          foto.src = '../static/img/uploads/' + dadosObj.dado[0]
         else
-          foto.src = '../static/uploads/notFound.jpg' 
+          foto.src = '../static/img/uploads/notFound.jpg' 
 
         carregaTabela()
         retiratextos()

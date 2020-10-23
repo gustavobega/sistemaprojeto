@@ -2,13 +2,13 @@ from . import empresa
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 
-@empresa.route("/cadastroEmpresa",methods=["GET", "POST"])
-def cadEmpresa():
+@empresa.route("/empresa",methods=["GET", "POST"])
+def exibirempresa():
     select = "SELECT * FROM bancoprojeto2020.empresa"
     cursor = conn.cursor()
     cursor.execute(select)
     results = cursor.fetchall()
-    return render_template('cadEmpresa.html', results=results)
+    return render_template('empresa.html', results=results)
 
 @empresa.route("/insertemp",methods=['POST', 'GET'])
 def insertemp():
@@ -23,7 +23,7 @@ def insertemp():
        flash("Cadastrado com Sucesso!")
        cursor.close()
 
-       return redirect(url_for('empresa.cadEmpresa'))
+       return redirect(url_for('empresa.exibirempresa'))
 
 @empresa.route("/alteraremp",methods=['POST', 'GET'])
 def alteraremp():
@@ -38,7 +38,7 @@ def alteraremp():
        flash("Alterado com Sucesso!")
        cursor.close()
 
-       return redirect(url_for('empresa.cadEmpresa'))
+       return redirect(url_for('empresa.exibirempresa'))
 
 @empresa.route("/deletaremp/<string:id>",methods=['POST', 'GET'])
 def deletaremp(id):
@@ -48,4 +48,4 @@ def deletaremp(id):
     flash("Deletado com Sucesso!")
     cursor.close()
 
-    return redirect(url_for('empresa.cadEmpresa'))
+    return redirect(url_for('empresa.exibirempresa'))

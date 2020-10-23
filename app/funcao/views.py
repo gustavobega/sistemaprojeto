@@ -32,7 +32,6 @@ def cadFuncao():
         results3 = cursor3.fetchall()
 
         tam = len(lista)
-
         return render_template('cadFuncao.html', results=results, results3=results3, lista=lista, tam=tam)
     else:
          return redirect(url_for("login.sign_in"))
@@ -52,7 +51,7 @@ def insertfuncao():
     cursor2 = conn.cursor()
     cursor2.execute("SELECT * FROM bancoprojeto2020.funcao ORDER BY Fun_Cod DESC LIMIT 1")
     results = cursor2.fetchone()
-    
+    flash("Cadastrado com Sucesso!")
     return jsonify (
         cod=results[0]
     )
@@ -73,7 +72,6 @@ def cadarquivo():
     cursor.execute("UPDATE bancoprojeto2020.funcao SET Fun_Caminho=%s WHERE Fun_Cod=%s", (caminho,cod))
     conn.commit()
     cursor.close()
-    flash("Cadastrado com Sucesso!")
     res = make_response(jsonify(req),200)
 
     return res

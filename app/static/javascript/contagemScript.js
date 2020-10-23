@@ -155,6 +155,7 @@ function retornaComplexibilidade(td, registro){
 
 function contagemScript(){
   
+  $("#tabelas").find("*").prop("disabled", true);
   var aChk = document.getElementsByName("item");
   var keys = Object.keys(aChk);
   var tamanho = keys.length;
@@ -258,6 +259,7 @@ function exibeContagem()
     }
 
     document.getElementById("tbodyContagem").innerHTML = dados;
+    $("#tabelas").find("*").prop("disabled", false);
 }
 
 function buscaTipoContagem(Tab_Cod)
