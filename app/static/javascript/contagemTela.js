@@ -41,6 +41,8 @@ function carregaFoto(){
     var codF = document.getElementById('selFuncao').value
     document.getElementById('selProjeto').disabled = true
     document.getElementById('selFuncao').disabled = true
+
+    foto = document.getElementById('imageoption')
     fetch(`${window.origin}/contagemTela/retornaFoto/` + codF,{
 
       method: "GET",
@@ -55,7 +57,6 @@ function carregaFoto(){
       return obj
     })
     .then(function (dadosObj) {
-        foto = document.getElementById('imageoption')
 
         if (dadosObj.operacao)
           foto.src = '../static/img/uploads/' + dadosObj.dado[0]
@@ -66,7 +67,7 @@ function carregaFoto(){
         retiratextos()
     })
     .catch(function () {
-      foto.src = '../static/uploads/notFound.jpg' 
+      foto.src = '../static/img/uploads/notFound.jpg' 
     })
 }
 

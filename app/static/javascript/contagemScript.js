@@ -727,6 +727,12 @@ function deletarScript() {
         document.getElementById('MsgSucesso').style.display = 'none'
         document.getElementById('MsgErro2').style.display = 'none'
         document.getElementById('btnsalvar').style.display = 'none'  
+
+        lista = []
+        tableJa = []
+        funcaoAnalisada = []
+        listaPrimary = []
+        tableTR = []
       }
     })
     .finally( function() {
