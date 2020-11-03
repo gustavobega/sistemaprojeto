@@ -85,11 +85,11 @@ function carregaTabelas(){
 
               var tabela = "";
               lista = dadosObj.lista;
-              for (i = 0;i < dadosObj.lista.length; i = i + 2)
+              for (i = 0,j = 0;i < dadosObj.lista.length; i = i + 2, j++)
               {
                   var linhas = `
                   <label class="container2">${dadosObj.lista[i]}
-                    <input type="checkbox" name="item" value="${dadosObj.listaCod[i]}" onclick="contagemScript();">
+                    <input type="checkbox" name="item" value="${dadosObj.listaCod[j]}" onclick="contagemScript();">
                     <span class="checkmark"></span>
                   </label>
                   `
@@ -367,6 +367,8 @@ function verificaScript(){
               <span class="checkmark"></span>
             </label>
             `
+            console.log(listaTabela[i][1])
+            console.log(listaTabela[i][0])
             tabela += linhas;
         } 
         document.getElementById("dadostabela").style.display = "block"

@@ -30,48 +30,86 @@ function cadFuncao(){
 
         response.json().then(function (data) {
             
-            if (tipo != 'S')
-            {
-                var fd = new FormData()
-                var cod = data.cod
-                var arquivo = document.getElementById('arquivo').files[0]
-                fd.append('arquivo', arquivo)
-                fd.append('cod', cod)
+            var fd = new FormData()
+            var cod = data.cod
+            var imagem = document.getElementById('imagemcad').files[0]
+            fd.append('imagem', imagem)
+            fd.append('cod', cod)
 
-                fetch(`${window.origin}/funcao/cadArquivo`,{
-                        method: "POST",
-                        headers: new Headers({
-                            "accept" :  "application/json"
-                        }),
-                        body: fd        
-                })
-                .then(function (response){
-                    if(response.status !== 200) {
-                    console.log(`Response status não é 200: ${response.status}`)
-                    return ;
-                    }
-            
-                    response.json().then(function (data) {
+            fetch(`${window.origin}/funcao/cadImagem`,{
+                    method: "POST",
+                    headers: new Headers({
+                        "accept" :  "application/json"
+                    }),
+                    body: fd        
+            })
+            .then(function (response){
+                if(response.status !== 200) {
+                console.log(`Response status não é 200: ${response.status}`)
+                return ;
+                }
+        
+                response.json().then(function (data) 
+                {
                     console.log(data)
                     
                     window.location.href = '/cadastroFuncao'
-            
-                    })
                 })
-            }
-            else
-            {
-                window.location.href = '/cadastroFuncao'
-            }
-           
+            }) 
         })
     })
 }
 
-function escondeFile() {
-    document.getElementById('arq').style.display = 'none'
-}
+function carregaFuncoes() {
+    var codProj = document.getElementById('proj').value
 
-function apareceFile() {
-    document.getElementById('arq').style.display = 'block'
+    fetch(`${window.origin}/funcao/getFuncoes/${codProj}`,{
+        method: "GET",
+        credentials: "include",
+        cache: "no-cache",
+        headers: new Headers({
+            "content-type": "application/json"
+        })
+      })
+      .then(function (dadosJson) {
+        var obj = dadosJson.json()
+        return obj
+      })
+      .then (function (dadosObj) {
+        var tbodyFuncoes = document.getElementById('tbodyFuncoes')
+        tbodyFuncoes.innerHTML = ""
+          if (dadosObj.operacao)
+          {
+              var linhas = ""
+              for (i = 0;i < dadosObj.results.length; i++)
+              {
+                  var image
+                  if (dadosObj.results[i][4] == null)
+                  {image = 'Não possui'}    
+                  else
+                  {image = dadosObj.results[i][4]}
+                  
+                   linhas += `
+                   <tr>
+                    <td>${dadosObj.results[i][0]}</td>
+                    <td>${dadosObj.results[i][2]}</td>
+                    <td>${dadosObj.results[i][5]}</td>
+                    
+                    <td>${image}</td>
+                    <td>
+                      <a href="/deletarfuncao/${dadosObj.results[i][0]}" onclick="return confirm('Confirmar Exclusão?')">
+                        <img class="fa fa-fw fa-trash-alt" />
+                      </a>
+                    </td>
+                   </tr>
+                   ` 
+              }
+
+              tbodyFuncoes.innerHTML = linhas
+          }
+          else
+          {
+            tbodyFuncoes.innerHTML = `<tr><td colspan="4">sem resultados...</td></tr>`
+          }
+      })
 }

@@ -131,6 +131,46 @@ function cadFatorAjuste(){
           });
 
     }  
-  }
+}
+
+function refazer() {
+
+  var codProj = document.getElementById('proj').value
+
+  fetch(`${window.origin}/fatorAjuste/refazer/${codProj}`,{
+
+    method: "GET",
+    credentials: "include",
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "application/json"
+    })
+  })
+  .then(function (dadosJson) {
+    var obj = dadosJson.json()
+    return obj
+  })
+  .then(function (dadosObj) {
+    if (dadosObj.operacao)
+    {
+      var pesos = document.getElementsByClassName("pesoNV");
+      tam = pesos.length;
+      i = 0;
+      while (i < tam) 
+      {
+        document.getElementById('Insertpeso' + i).value = 0
+        i++
+      } 
+      document.getElementById('peso').value = 0
+      document.getElementById('valorFator').innerHTML = "Fator de Ajuste = 0.65"
+      msg = document.getElementById('MsgSucesso')
+      msg2 = document.getElementById('MsgErro')
+
+      msg.style.display = 'none'
+      msg2.style.display = 'none'
+    }
+  })
+  
+}
   
 carregaPerguntas();

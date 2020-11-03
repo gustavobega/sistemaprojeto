@@ -310,7 +310,6 @@ def obtemContagem(codProj,Tab_Cod):
       
     cursor.close()
     operacao = True
-
     if results == ():
         operacao = False
 

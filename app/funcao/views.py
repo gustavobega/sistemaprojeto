@@ -9,30 +9,21 @@ from werkzeug.utils import secure_filename
 @funcao.route("/cadastroFuncao", methods=["GET", "POST"])
 def cadFuncao():
     if session.get("USERNAME", None) is not None:  
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM bancoprojeto2020.funcao")
-        results = cursor.fetchall()
-        lista = []
 
-        #pega o codigo do projeto do banco e adiciona na lista o projeto daquele codigo
-        for row in results:
-            cod = row[1]
-            cursor2 = conn.cursor()
-            cursor2.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s", (cod))
-            results2 = cursor2.fetchone()
-            tc_nome = results2[3]
-
-            lista.append(tc_nome)
-    
-
-        #pega os projetos para utilizar na hora de alterar 
-        select = "SELECT * FROM bancoprojeto2020.projeto"
+        select = "SELECT * FROM bancoprojeto2020.projeto where emp_cod = " + str(session.get('ID'))
         cursor3 = conn.cursor()
         cursor3.execute(select)
         results3 = cursor3.fetchall()
+        codProj = 0
+        if results3 != ():
+            codProj = results3[0][0]
 
-        tam = len(lista)
-        return render_template('cadFuncao.html', results=results, results3=results3, lista=lista, tam=tam)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.projeto as p ON f.proj_cod = p.proj_cod and p.proj_cod=%s", (str(codProj)))
+        results = cursor.fetchall()
+
+        tam = len(results)
+        return render_template('cadFuncao.html', results=results, results3=results3, tam=tam)
     else:
          return redirect(url_for("login.sign_in"))
 
@@ -56,12 +47,12 @@ def insertfuncao():
         cod=results[0]
     )
 
-@funcao.route("/funcao/cadArquivo",methods=["POST"])
-def cadarquivo():
+@funcao.route("/funcao/cadImagem",methods=["POST"])
+def cadImagem():
 
     req = request.form
     cod = req['cod']
-    file = request.files['arquivo']
+    file = request.files['imagem']
     
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
@@ -76,24 +67,6 @@ def cadarquivo():
 
     return res
     
-
-@funcao.route("/alterarfuncao",methods=['POST', 'GET'])
-def alterarfuncao():
-    if request.method == "POST":
-       id = request.form['id']
-       nome = request.form['nome'] 
-       tipo = request.form['options']
-       caminho = request.form['caminho'] 
-       projcod = request.form.get('proj')
-       soma = request.form['soma'] 
-       cursor = conn.cursor()
-       cursor.execute("UPDATE bancoprojeto2020.funcao SET Proj_Cod=%s, Fun_nome=%s, Fun_SomaContagemReal=%s, Fun_Caminho=%s, Fun_Tipo=%s  WHERE Fun_Cod=%s",(projcod,nome,soma,caminho,tipo, id))
-       conn.commit()
-       flash("Alterado com Sucesso!")
-       cursor.close()
-
-       return redirect(url_for('funcao.cadFuncao'))
-
 @funcao.route("/deletarfuncao/<string:id>",methods=['POST', 'GET'])
 def deletarfuncao(id):
     cursor = conn.cursor()
@@ -103,3 +76,18 @@ def deletarfuncao(id):
     cursor.close()
 
     return redirect(url_for('funcao.cadFuncao'))
+
+@funcao.route("/funcao/getFuncoes/<string:codProj>",methods=['POST', 'GET'])
+def getFuncoes(codProj):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.projeto as p ON f.proj_cod = p.proj_cod and p.proj_cod=%s",(codProj))
+    results = cursor.fetchall()
+    cursor.close()
+    operacao = True
+    if results == ():
+        operacao = False
+
+    return jsonify (
+        operacao=operacao,
+        results=results
+    )

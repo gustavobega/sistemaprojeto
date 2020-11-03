@@ -1,6 +1,6 @@
 from . import estimativa
 from app import conn
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for,request
 from flask import jsonify, make_response,json
 from flask import session
 
@@ -83,4 +83,33 @@ def retornaLinguagem(codProj):
     return jsonify (
         operacao=operacao,
         results=results
+    )
+
+@estimativa.route("/estimativa/salvaEstimativa/<string:codProj>", methods=["POST"])
+def salvaEstimativa(codProj):
+    req = request.get_json()
+    modelo = req['modelo']
+    modo = req['modo']
+
+    loc = req['loc']
+    kloc = req['kloc']
+    esforco = req['esforco']
+    prazo = req['prazo']
+    produtividade = req['produtividade']
+    tam = req['tam']
+
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM bancoprojeto2020.estimativa WHERE Proj_Cod = %s", (codProj))
+    conn.commit()
+    cursor.close()
+
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO bancoprojeto2020.estimativa(Est_Modelo,Est_Modo,Est_Loc,Est_Kloc,Est_Esforco,Est_Prazo,Est_Produtividade,Est_TamEquipe,Proj_Cod) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", (modelo,modo,loc,kloc,esforco,prazo,produtividade,tam,codProj))
+    conn.commit()
+    cursor.close()
+
+    operacao = True
+
+    return jsonify (
+        operacao=operacao
     )

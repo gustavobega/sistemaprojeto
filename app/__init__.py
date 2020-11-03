@@ -59,4 +59,7 @@ app.register_blueprint(estimativa_blueprint)
 
 from app.login import login as login_blueprint
 app.register_blueprint(login_blueprint)
+
+from app.relatorio import relatorio as relatorio_blueprint
+app.register_blueprint(relatorio_blueprint)
   

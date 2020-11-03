@@ -94,3 +94,18 @@ def cadFatorAjuste():
     res = make_response(jsonify(req),200)
 
     return res
+
+    
+
+@fatorA.route("/fatorAjuste/refazer/<string:codProj>", methods=["GET"])
+def refazer(codProj):
+
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM bancoprojeto2020.fatorajuste WHERE Proj_Cod = %s", (codProj))
+    conn.commit()
+
+    cursor.close()
+
+    return jsonify (
+        operacao = True
+    )

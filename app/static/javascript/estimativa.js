@@ -205,7 +205,7 @@ function obtemPontos(){
         total = contribuicao
     
       document.getElementById('pontosFuncao').innerHTML = 'Total de Pontos Não Ajustados - ' + total
-      pontos = total * fatorajuste
+      pontos = (total * fatorajuste).toFixed(2)
       document.getElementById('pontosFuncaoAjustado').innerHTML = 'Total de Pontos Ajustados - ' + pontos
 
       retornaLinguagem()
@@ -272,7 +272,6 @@ function retornaLinguagem(){
       calculaEstimativa()
     }
   })
-  
 }
 
 function calculaEstimativa() {
@@ -281,7 +280,7 @@ function calculaEstimativa() {
     var loc = document.getElementById('loc')
     var klocinput = document.getElementById('kloc')
   
-    loc.value = parseFloat(pontos) * linguagem
+    loc.value = (parseFloat(pontos) * linguagem).toFixed(2)
     kloc = loc.value / 1000
     loc.value += ' linhas'
     klocinput.value = kloc.toFixed(2)
@@ -383,6 +382,58 @@ function trocaModo() {
     document.getElementById('embutido').style.display = 'block';
   }
   calculaEstimativa
+}
+
+function salvarEstimativa() {
+  var carrega = document.getElementById('carrega')
+  carrega.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> salvando...</td></tr>`
+  carrega.style.display = "block";
+
+  var codProj = document.getElementById('selProjeto').value
+  var modelo = document.getElementById('modelo').value
+  var modo = document.getElementById('modo').value
+
+  var loc = document.getElementById('loc').value.split(' ')[0]
+  var kloc = document.getElementById('kloc').value
+  var esforco = document.getElementById('esforco').value.split(' ')[0]
+  var prazo = document.getElementById('prazo').value
+  var produtividade = document.getElementById('produtividade').value.split(' ')[0]
+  var tam = document.getElementById('tam').value.split(' ')[0]
+
+  var dados = {
+    modelo,
+    modo,
+    loc,
+    kloc,
+    esforco,
+    prazo,
+    produtividade,
+    tam
+  }
+  fetch(`${window.origin}/estimativa/salvaEstimativa/` + codProj,{
+
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(dados),
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
+  })
+  .then(function (dadosJson) {
+    var obj = dadosJson.json()
+    return obj
+  })
+  .then(function (dadosObj) {
+    if (dadosObj.operacao){
+      var msgSucess = document.getElementById('MsgSucesso')
+      msgSucess.innerHTML = "Estimativa Salva com Sucesso!";
+      msgSucess.style.display = 'block';
+    }
+  })
+  .finally (function () {
+    carrega.style.display = 'none'
+  })
 }
 
 $(document).ready(function () {
