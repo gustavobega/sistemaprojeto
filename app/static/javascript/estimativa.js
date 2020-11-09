@@ -159,6 +159,7 @@ function calculaTipoTransacao(){
               <td>${dadosObj.dados[i][5]}</td>
             </tr>
           ` 
+          contribuicao += dadosObj.dados[i][5];
           linhas += template;
       }
       
@@ -202,7 +203,10 @@ function obtemPontos(){
         total += parseInt(dadosObj.results[i])
       }
       else
+      {
         total = contribuicao
+      }
+        
     
       document.getElementById('pontosFuncao').innerHTML = 'Total de Pontos Não Ajustados - ' + total
       pontos = (total * fatorajuste).toFixed(2)
