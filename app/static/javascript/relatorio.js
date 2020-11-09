@@ -1,6 +1,29 @@
 var pontosNajustado = 0
 var total = 0
 
+function getEscopo() {
+    var codProj = document.getElementById('selProjeto').value
+
+    fetch(`${window.origin}/relatorio/getEscopo/` + codProj,{
+
+        method: "GET",
+        credentials: "include",
+        cache: "no-cache",
+        headers: new Headers({
+        "content-type": "application/json"
+        })
+    })
+    .then(function (dadosJson) {
+        var obj = dadosJson.json()
+        return obj
+    })
+    .then(function (dadosObj) {
+        var escopo = document.getElementById('escopo')
+        escopo.innerHTML = dadosObj.escopo
+        gerarelatorioDado();
+    })   
+}
+
 function retornaComplexibilidade(td, registro){
     listaAux = []
     if ((registro == 1 && td < 20) ||( registro == 1 && td >= 20 && td <= 50) || (registro >= 2 && registro <= 5 && td < 20)){//baixa
@@ -322,7 +345,7 @@ function geraFatorAjuste()
                 total += parseInt(dadosObj.results[i][1])
             }
             linhas += `
-                    <tr style="background: #90ee90;">
+                    <tr style="background: darkslategrey; color: white;">
                         <td><strong>Total</strong></td>
                         <td><strong>${total}</strong></td>
                     </tr>
@@ -372,4 +395,4 @@ function geraContagem() {
         }    
     })
 }
-gerarelatorioDado();
+getEscopo();

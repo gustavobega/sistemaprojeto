@@ -58,6 +58,11 @@ p {
     color: darkslategrey;
 }
 
+#escopo {
+    max-width: 1200px;
+    padding-right: 50px;
+}
+
 @media only screen and (max-width: 1200px) {
     .tudo {
         flex-direction: column;

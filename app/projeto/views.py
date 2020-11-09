@@ -51,8 +51,9 @@ def insertproj():
        datainicio = request.form['datainicio']
        dataprevista = request.form['dataprevista']
        lingcod = request.form.get('ling')
+       escopo = request.form.get('escopo')
        cursor = conn.cursor()
-       cursor.execute("INSERT INTO bancoprojeto2020.projeto (TC_Cod,Emp_Cod,Proj_Nome,Proj_Descricao,Proj_Gerente,Proj_DataInicio,Proj_DataP,Ling_Cod) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",(cod,empcod,nome,descricao,gerente, datainicio, dataprevista,lingcod))
+       cursor.execute("INSERT INTO bancoprojeto2020.projeto (TC_Cod,Emp_Cod,Proj_Nome,Proj_Descricao,Proj_Gerente,Proj_DataInicio,Proj_DataP,Ling_Cod,Proj_Escopo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",(cod,empcod,nome,descricao,gerente, datainicio, dataprevista,lingcod,escopo))
        conn.commit()
        flash("Cadastrado com Sucesso!")
        cursor.close()
@@ -71,11 +72,11 @@ def alterarproj():
        temporeal = request.form['temporeal'] 
        datainicio = request.form['datainicio'] 
        dataprevista = request.form['dataprevista'] 
-       datatermino = request.form['datatermino'] 
        fct = request.form['fct']
        lingcod = request.form.get('ling')
+       escopo = request.form.get('escopo')
        cursor = conn.cursor()
-       cursor.execute("UPDATE bancoprojeto2020.projeto SET TC_Cod=%s,Proj_Nome=%s,Proj_Descricao=%s,Proj_TempoContagem=%s,Proj_TempoReal=%s,Proj_Gerente=%s,Proj_DataInicio=%s,Proj_DataTermino=%s,Proj_DataP=%s,Proj_FCT=%s, Ling_Cod=%s WHERE Proj_Cod=%s",(cod,nome,descricao,tempocontagem,temporeal,gerente, datainicio, datatermino, dataprevista,fct,lingcod, id))
+       cursor.execute("UPDATE bancoprojeto2020.projeto SET TC_Cod=%s,Proj_Nome=%s,Proj_Descricao=%s,Proj_TempoContagem=%s,Proj_TempoReal=%s,Proj_Gerente=%s,Proj_DataInicio=%s,Proj_DataP=%s,Proj_FCT=%s, Ling_Cod=%s, Proj_Escopo=%s WHERE Proj_Cod=%s",(cod,nome,descricao,tempocontagem,temporeal,gerente, datainicio, dataprevista,fct,lingcod,escopo, id))
        conn.commit()
        flash("Alterado com Sucesso!")
        cursor.close()

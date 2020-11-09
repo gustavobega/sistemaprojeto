@@ -97,7 +97,14 @@
                               <input type="text" class="form-control" name="descricao" value="{{results[i][4]}}">
             
                           </div>
+
+                          <div class="form-group">
+
+                            <label>Escopo:</label>
+                            <textarea name="escopo" rows="4" cols="64">{{results[i][13]}}</textarea>
           
+                          </div>
+
                           <div class="form-group">
           
                             <label>Tipo de Contagem:</label>
@@ -135,13 +142,6 @@
           
                               <label>Data Prevista:</label>
                               <input type="date" class="form-control" name="dataprevista" value="{{results[i][10]}}" style="width: 150px;">
-            
-                          </div>
-          
-                          <div class="form-group">
-          
-                              <label>Data Termino:</label>
-                              <input type="date" class="form-control" name="datatermino" value="{{results[i][9]}}" style="width: 150px;">
             
                           </div>
           
@@ -220,6 +220,13 @@
                     <label>Descrição:</label>
                     <input type="text" class="form-control" name="descricao" required="1">
   
+                </div>
+
+                <div class="form-group">
+
+                  <label>Escopo:</label>
+                  <textarea name="escopo" rows="4" cols="64"></textarea>
+
                 </div>
 
                 <div class="form-group">

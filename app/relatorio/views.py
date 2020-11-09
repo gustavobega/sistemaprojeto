@@ -91,3 +91,15 @@ def getContagem(codProj):
         operacao=operacao,
         results=results
     )
+
+@relatorio.route("/relatorio/getEscopo/<string:codProj>",methods=["GET",])
+def getEscopo(codProj):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s and Proj_Cod=%s", (session.get('ID'),codProj))
+    escopo = cursor.fetchone()[13]
+    cursor.close()
+
+    return jsonify (
+        escopo=escopo
+    )
+ 
