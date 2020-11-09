@@ -243,7 +243,7 @@ function obtemFatorAjuste(){
             total2 += parseInt(data[i])
           }
           fatorajuste = parseFloat(total2 * 0.01 + 0.65)
-          document.getElementById('fatorajuste').innerHTML = 'Fator de Ajuste: ' + fatorajuste
+          document.getElementById('fatorajuste').innerHTML = 'Fator de Ajuste: ' + fatorajuste.toFixed(2)
 
           obtemPontos() 
         })
