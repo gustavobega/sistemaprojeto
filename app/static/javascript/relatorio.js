@@ -250,7 +250,7 @@ function gerarelatorioTransacao()
                                 <td><b>Descrição</b></td>
                                 <td><b>Tipo</b></td>
                                 <td><b>TD</b></td>
-                                <td><b>AR / TR</b></td>
+                                <td><b>TR</b></td>
                                 <td><b>Complex.</b></td>
                                 <td><b>Contribuição</b></td>
                             </tr>
@@ -292,7 +292,7 @@ function gerarelatorioTransacao()
                             <td><b>Descrição</b></td>
                             <td><b>Tipo</b></td>
                             <td><b>TD</b></td>
-                            <td><b>AR / TR</b></td>
+                            <td><b>TR</b></td>
                             <td><b>Complex.</b></td>
                             <td><b>Contribuição</b></td>
                         </tr>
