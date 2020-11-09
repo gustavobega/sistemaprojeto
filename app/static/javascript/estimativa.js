@@ -3,6 +3,7 @@ var pontos = 0;
 var linguagem = 0;
 var kloc = 0;
 var contribuicao = 0
+var script = false;
 function retornaComplexibilidade(td, registro){
   listaAux = []
   if ((registro == 1 && td < 20) ||( registro == 1 && td >= 20 && td <= 50) || (registro >= 2 && registro <= 5 && td < 20)){//baixa
@@ -62,6 +63,7 @@ function calculaTipoDado(){
       }
       else if (dadosObj.operacaoScript)
       {
+        script = true;
         var linhas = ""
         var descricao = ""
         var tipo = ""
@@ -197,7 +199,7 @@ function obtemPontos(){
     if (dadosObj.operacao){
 
       var total = 0
-      if (contribuicao == 0)
+      if (!script)
       {
         for (i = 0;i < dadosObj.results.length; i++)
         total += parseInt(dadosObj.results[i])
