@@ -77,7 +77,7 @@ function gerarelatorioDado()
                                 <td><b>Descrição</b></td>
                                 <td><b>Tipo</b></td>
                                 <td><b>TD</b></td>
-                                <td><b>AR / TR</b></td>
+                                <td><b>TR</b></td>
                                 <td><b>Complex.</b></td>
                                 <td><b>Contribuição</b></td>
                             </tr>
@@ -151,7 +151,7 @@ function gerarelatorioDado()
                             <td><b>Descrição</b></td>
                             <td><b>Tipo</b></td>
                             <td><b>TD</b></td>
-                            <td><b>AR / TR</b></td>
+                            <td><b>TR</b></td>
                             <td><b>Complex.</b></td>
                             <td><b>Contribuição</b></td>
                         </tr>
@@ -388,7 +388,7 @@ function geraContagem() {
                 <p><strong>LOC:</strong> ${dadosObj.results[2]} linhas</p>
                 <p><strong>KLOC:</strong> ${dadosObj.results[3]}</p>
                 <p><strong>Esforço:</strong> ${dadosObj.results[4]} homens-mês</p>
-                <p><strong>Prazo:</strong> ${dadosObj.results[5]}</p>
+                <p><strong>Prazo:</strong> ${dadosObj.results[5]} meses</p>
                 <p><strong>Produtividade:</strong> ${dadosObj.results[6]} pessoa-dia</p>
                 <p><strong>Tamanho da Equipe:</strong> ${dadosObj.results[7]} pessoas</p>
             `
