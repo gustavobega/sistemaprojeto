@@ -56,7 +56,7 @@ function calcFator() {
     }
     document.getElementById('peso').value = nivel
     let fatorajuste = parseFloat(nivel * 0.01 + 0.65)
-    document.getElementById('valorFator').innerHTML = "Fator de Ajuste = " + fatorajuste
+    document.getElementById('valorFator').innerHTML = "Fator de Ajuste = " + fatorajuste.toFixed(2)
   }
 
 function cadFatorAjuste(){
