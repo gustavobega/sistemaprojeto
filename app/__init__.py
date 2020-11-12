@@ -2,14 +2,16 @@ from flask import Flask
 from flask import render_template
 import pymysql
 
-app = Flask(__name__)
+UPLOAD_FOLDER = 'app/static/img/uploads/' 
+ALLOWED_EXTENSIONS = ['PNG', 'JPG', 'JPEG', 'GIF']
 
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Make the WSGI interface available at the top level so wfastcgi can get it.
 wsgi_app = app.wsgi_app
 
 app.secret_key = "flash message"
-app.config['UPLOAD_FOLDER'] = 'app/static/img/uploads/' 
-app.config['ALLOWED_IMAGE_EXTENSIONS'] = ['PNG', 'JPG', 'JPEG', 'GIF']
+
 
 conn = pymysql.connect(host='den1.mysql2.gear.host', port=3306, user='bancoprojeto2020',
     passwd='Jg5euFT~-q39',db='bancoprojeto2020', charset="utf8")

@@ -58,8 +58,8 @@ def cadImagem():
     file = request.files['imagem']
     
     filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-    file.close()
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     caminho = filename
 
     cursor = conn.cursor()
