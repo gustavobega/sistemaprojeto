@@ -7,7 +7,11 @@ from flask import session
 @fatorA.route("/fatorAjuste", methods=["GET", "POST"])
 def calcFatorAjuste():
     if session.get("USERNAME", None) is not None:   
-        select = "SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=" + str(session.get('ID'))
+        if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
+            select = "SELECT * FROM bancoprojeto2020.projeto"
+        else:
+            select = "SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=" + str(session.get('ID'))
+
         cursor = conn.cursor()
         cursor.execute(select)
         results = cursor.fetchall()
