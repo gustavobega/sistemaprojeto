@@ -11,6 +11,7 @@ def cadProjeto():
             cursor.execute("SELECT * FROM bancoprojeto2020.projeto")   
         else:
             cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID'))) 
+            
         results = cursor.fetchall()
         lista = []
 

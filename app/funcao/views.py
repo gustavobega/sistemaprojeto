@@ -9,8 +9,11 @@ from werkzeug.utils import secure_filename
 @funcao.route("/cadastroFuncao", methods=["GET", "POST"])
 def cadFuncao():
     if session.get("USERNAME", None) is not None:  
+        if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
+            select = "SELECT * FROM bancoprojeto2020.projeto"
+        else:
+            select = "SELECT * FROM bancoprojeto2020.projeto where emp_cod = " + str(session.get('ID'))  
 
-        select = "SELECT * FROM bancoprojeto2020.projeto where emp_cod = " + str(session.get('ID'))
         cursor3 = conn.cursor()
         cursor3.execute(select)
         results3 = cursor3.fetchall()
