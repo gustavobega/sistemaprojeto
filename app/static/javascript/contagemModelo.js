@@ -65,9 +65,9 @@ function carregaFoto(){
     .then(function (dadosObj) {
         
         if (dadosObj.operacao)
-          foto.src = '../static/img/uploads/' + dadosObj.dado[0]
+          foto.src = '../static/uploads/' + dadosObj.dado[0]
         else
-          foto.src = '../static/img/uploads/notFound.jpg' 
+          foto.src = '../static/uploads/notFound.png' 
 
         var select = document.getElementById('selFuncao')
         var descricao = select.options[select.selectedIndex].label
@@ -76,7 +76,7 @@ function carregaFoto(){
         retiratextos()
     })
     .catch(function () {
-      foto.src = '../static/img/uploads/notFound.jpg' 
+      foto.src = '../static/uploads/notFound.png' 
     })
 }
 

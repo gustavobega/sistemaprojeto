@@ -59,15 +59,15 @@ function carregaFoto(){
     .then(function (dadosObj) {
 
         if (dadosObj.operacao)
-          foto.src = '../static/img/uploads/' + dadosObj.dado[0]
+          foto.src = '../static/uploads/' + dadosObj.dado[0]
         else
-          foto.src = '../static/img/uploads/notFound.jpg' 
+          foto.src = '../static/uploads/notFound.png' 
 
         carregaTabela()
         retiratextos()
     })
     .catch(function () {
-      foto.src = '../static/img/uploads/notFound.jpg' 
+      foto.src = '../static/uploads/notFound.png' 
     })
 }
 
