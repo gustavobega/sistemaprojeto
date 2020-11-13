@@ -68,7 +68,7 @@ function carregaTabelas(){
       fetch(`${window.origin}/contagemScript/geraContagem/${codProj}`,{
           method: "POST",
           headers: {
-            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
           },
           body: fd
         })
