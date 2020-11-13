@@ -88,9 +88,9 @@ def adicionaContagem():
         conn.commit()
         cursor2.close
 
-    res = make_response(jsonify(req),200)
-
-    return res
+    return jsonify (
+        operacao=True
+    )
 
 @contagemT.route("/contagemTela/calculaPontos/<string:codProj>", methods=["GET"])
 def calculaPontos(codProj):

@@ -19,45 +19,41 @@ function cadFuncao(){
 
     fetch(`${window.origin}/funcao/cadFuncao`,{
           method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
           credentials: "include",
-          body: JSON.stringify(dados),
-          cache: "no-cache",
-          headers: new Headers({
-            "content-type": "application/json"
-        })
+          body: JSON.stringify(dados),    
     })
-    .then(function(response){
-
-        response.json().then(function (data) {
-            
-            var fd = new FormData()
-            var cod = data.cod
-            var imagem = document.getElementById('imagemcad').files[0]
-            fd.append('imagem', imagem)
-            fd.append('cod', cod)
-
-            fetch(`${window.origin}/funcao/cadImagem`,{
-                    method: "POST",
-                    headers: new Headers({
-                        "accept" :  "application/json"
-                    }),
-                    body: fd        
-            })
-            .then(function (response){
-                if(response.status !== 200) {
-                console.log(`Response status não é 200: ${response.status}`)
-                return ;
-                }
-        
-                response.json().then(function (data) 
-                {
-                    console.log(data)
-                    
-                    window.location.href = '/cadastroFuncao'
-                })
-            }) 
-        })
+    .then(function (dadosJson){
+        var obj = dadosJson.json()
+        return obj
     })
+    .then(function (dadosObj) {
+        var cod = dadosObj.cod
+        var fd = new FormData()
+        var imagem = document.getElementById('imagemcad').files[0]
+        fd.append('imagem', imagem)
+        fd.append('cod', cod)
+
+        fetch(`${window.origin}/funcao/cadImagem`,{
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+            },
+            credentials: "include",
+            body: fd        
+        })
+        .then(function (dadosJson) {
+            var obj = dadosJson.json()
+            return obj
+        })
+        .then(function (dadosObj) {
+            if(dadosObj.operacao){
+                window.location.href = '/cadastroFuncao'
+            }
+        })
+    });
 }
 
 function carregaFuncoes() {
@@ -65,17 +61,17 @@ function carregaFuncoes() {
 
     fetch(`${window.origin}/funcao/getFuncoes/${codProj}`,{
         method: "GET",
-        credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-            "content-type": "application/json"
-        })
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        credentials: "include"
       })
       .then(function (dadosJson) {
         var obj = dadosJson.json()
         return obj
       })
       .then (function (dadosObj) {
+          
         var tbodyFuncoes = document.getElementById('tbodyFuncoes')
         tbodyFuncoes.innerHTML = ""
           if (dadosObj.operacao)

@@ -7,11 +7,11 @@ function carregaFuncoes(){
     fetch(`${window.origin}/contagemTela/retornaFuncao/` + codProj,{
 
         method: "GET",
-        credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-          "content-type": "application/json"
-        })
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json",
+        },
+        credentials: "include"
       })
       .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -44,13 +44,13 @@ function carregaFoto(){
 
     foto = document.getElementById('imageoption')
     fetch(`${window.origin}/contagemTela/retornaFoto/` + codF,{
-
       method: "GET",
       credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then(function (dadosJson) {
       var obj = dadosJson.json()
@@ -75,13 +75,12 @@ function carregaTipoCont(){
   var codProj = document.getElementById('selProjeto').value
 
   fetch(`${window.origin}/contagemTela/retornaTipoCont/` + codProj,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -109,13 +108,12 @@ function carregaTabela(){
   var codF = document.getElementById('selFuncao').value
 
   fetch(`${window.origin}/contagemTela/retornaContagem/${codF}/${codProj}`,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -241,31 +239,30 @@ function adicionarFuncao(){
       }
 
       fetch(`${window.origin}/contagemTela/adicionaContagem`,{
-    
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(dados),
-        cache: "no-cache",
-        headers: new Headers({
-          "content-type": "application/json"
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=utf-8",
+              "Accept": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(dados)
         })
+        .then (function (dadosJson) {
+          var obj = dadosJson.json()
+          return obj
         })
-        .then(function (response){
-        if(response.status !== 200) {
-          console.log(`Response status não é 200: ${response.status}`)
-          return ;
-        }
-        msg = document.getElementById('MsgSucesso')
+        .then(function (dadosObj) {
+          if(dadosObj.operacao){
+            msg = document.getElementById('MsgSucesso')
 
-        msg.style.display = 'block'
-        msg.innerHTML = 'Cadastrado com Sucesso'
+            msg.style.display = 'block'
+            msg.innerHTML = 'Cadastrado com Sucesso'
 
-        response.json().then(function (data) {
-          limpaInput() 
-          carregaTabela()
-          document.getElementById('contCod').value = 0
-        })
-        })
+            limpaInput() 
+            carregaTabela()
+            document.getElementById('contCod').value = 0
+          }
+        });
     }  
 }
 
@@ -283,52 +280,45 @@ function editaContagem(contCod){
     fetch(`${window.origin}/contagemTela/alterarContagem/${contCod}`,{
 
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
-    .then(function (response){
-      if(response.status !== 200) {
-        console.log(`Response status não é 200: ${response.status}`)
-        return ;
-      }
+    .then(function (dadosJson) {
+      var obj = dadosJson.json()
+      return obj
+    })
+    .then(function (dadosObj) {
+      var select = document.getElementById('selTipo')
+      select.value = dadosObj[6]
 
-      response.json().then(function (data) {
-        console.log(data)
+      document.getElementById('descricao').value = dadosObj[1]
+      document.getElementById('td').value = dadosObj[2]
+      document.getElementById('registro').value = dadosObj[3]
+      document.getElementById('complexidade').value = dadosObj[4]
+      document.getElementById('pf').value = dadosObj[5]
 
-        var select = document.getElementById('selTipo')
-        select.value = data[6]
-
-        document.getElementById('descricao').value = data[1]
-        document.getElementById('td').value = data[2]
-        document.getElementById('registro').value = data[3]
-        document.getElementById('complexidade').value = data[4]
-        document.getElementById('pf').value = data[5]
-
-        document.getElementById('contCod').value = data[0]
-      })
-      })    
+      document.getElementById('contCod').value = dadosObj[0]
+    });   
 }
 
 function deletarContagem(contCod){
 
   fetch(`${window.origin}/contagemTela/deletarContagem/${contCod}`,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json(); //deserializando
     return obj;
   })
   .then(function (dadosObj) {
-      console.log(dadosObj.msg)
       msg = document.getElementById('MsgSucesso')
       msg.style.display = 'block'
       msg.innerHTML = 'Deletado com Sucesso'
@@ -340,29 +330,26 @@ function calcularPontos(){
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/contagemTela/calculaPontos/` + codProj,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
-    .then(function (response){
-      if(response.status !== 200) {
-        console.log(`Response status não é 200: ${response.status}`)
-        return ;
-      }
-      response.json().then(function (data) {
+    .then(function (dadosJson) {
+      var obj = dadosJson.json(); //deserializando
+      return obj;
+    })
+    .then(function (dadosObj) {
         var total = 0
-        for (i = 0;i < data.length; i++){
-          total += parseInt(data[i])
+        for (i = 0;i < dadosObj.length; i++){
+          total += parseInt(dadosObj[i])
         }
         document.getElementById('pnotajustado').innerHTML = 'Total de Pontos Não-Ajustados: ' + total
         document.getElementById('selProjeto').disabled = false
         document.getElementById('selFuncao').disabled = false
-      })
-    })
+    });
 }
 
 function retiratextos(){

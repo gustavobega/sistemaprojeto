@@ -26,13 +26,12 @@ function calculaTipoDado(){
     var codProj = document.getElementById('selProjeto').value
     var tabela = document.getElementById('tbodyTipoDado')
     fetch(`${window.origin}/estimativa/obtemContagemTipoDado/${codProj}`,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then(function (dadosJson) {
       var obj = dadosJson.json()
@@ -119,13 +118,12 @@ function calculaTipoTransacao(){
   var codProj = document.getElementById('selProjeto').value
   var tabela = document.getElementById('tbodyTipoTransacao')
   fetch(`${window.origin}/estimativa/obtemContagemTipoTransacao/${codProj}`,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -183,13 +181,12 @@ function obtemPontos(){
   var codProj = document.getElementById('selProjeto').value
 
   fetch(`${window.origin}/estimativa/retornaPontos/` + codProj,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -230,43 +227,39 @@ function obtemFatorAjuste(){
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/contagemTela/retornaFatorAjuste/` + codProj,{
-
         method: "GET",
-        credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-          "content-type": "application/json"
-        })
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json",
+        },
+        credentials: "include"
       })
-      .then(function (response){
-        if(response.status !== 200) {
-          console.log(`Response status não é 200: ${response.status}`)
-          return ;
+      .then(function (dadosJson) {
+        var obj = dadosJson.json()
+        return obj
+      })
+      .then(function (dadosObj) {
+        var total2 = 0
+        for (i = 0;i < dadosObj.length; i++){
+          total2 += parseInt(dadosObj[i])
         }
-        response.json().then(function (data) {
-          var total2 = 0
-          for (i = 0;i < data.length; i++){
-            total2 += parseInt(data[i])
-          }
-          fatorajuste = parseFloat(total2 * 0.01 + 0.65)
-          document.getElementById('fatorajuste').innerHTML = 'Fator de Ajuste: ' + fatorajuste.toFixed(2)
+        fatorajuste = parseFloat(total2 * 0.01 + 0.65)
+        document.getElementById('fatorajuste').innerHTML = 'Fator de Ajuste: ' + fatorajuste.toFixed(2)
 
-          obtemPontos() 
-        })
-      })
+        obtemPontos() 
+      });
 }
 
 function retornaLinguagem(){
   var codProj = document.getElementById('selProjeto').value
 
   fetch(`${window.origin}/estimativa/retornaLinguagem/` + codProj,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -417,14 +410,12 @@ function salvarEstimativa() {
     tam
   }
   fetch(`${window.origin}/estimativa/salvaEstimativa/` + codProj,{
-
     method: "POST",
+    headers: {
+      "Accept": "application/json",
+    },
     credentials: "include",
-    body: JSON.stringify(dados),
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    }),
+    body: JSON.stringify(dados)
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()

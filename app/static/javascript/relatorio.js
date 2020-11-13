@@ -5,13 +5,12 @@ function getEscopo() {
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/relatorio/getEscopo/` + codProj,{
-
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+        },
         credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-        "content-type": "application/json"
-        })
     })
     .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -47,13 +46,12 @@ function gerarelatorioDado()
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/relatorio/getContagemDado/` + codProj,{
-
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+        },
         credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-        "content-type": "application/json"
-        })
     })
     .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -219,13 +217,12 @@ function gerarelatorioTransacao()
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/relatorio/getContagemTransacao/` + codProj,{
-
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+        },
         credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-        "content-type": "application/json"
-        })
     })
     .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -317,13 +314,12 @@ function geraFatorAjuste()
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/relatorio/geraFatorAjuste/` + codProj,{
-
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+        },
         credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-        "content-type": "application/json"
-        })
     })
     .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -362,13 +358,12 @@ function geraContagem() {
     var codProj = document.getElementById('selProjeto').value
 
     fetch(`${window.origin}/relatorio/getContagem/` + codProj,{
-
         method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+        },
         credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-        "content-type": "application/json"
-        })
     })
     .then(function (dadosJson) {
         var obj = dadosJson.json()

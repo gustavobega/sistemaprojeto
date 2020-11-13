@@ -66,9 +66,10 @@ def cadImagem():
     cursor.execute("UPDATE bancoprojeto2020.funcao SET Fun_Caminho=%s WHERE Fun_Cod=%s", (caminho,cod))
     conn.commit()
     cursor.close()
-    res = make_response(jsonify(req),200)
 
-    return res
+    return jsonify (
+        operacao=True
+    )
     
 @funcao.route("/deletarfuncao/<string:id>",methods=['POST', 'GET'])
 def deletarfuncao(id):

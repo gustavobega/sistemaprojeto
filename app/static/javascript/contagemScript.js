@@ -8,13 +8,12 @@ function carregaFuncoes(){
     codProj = document.getElementById('selProjeto').value
     document.getElementById('selFuncao').selectedIndex = -1
     fetch(`${window.origin}/contagemScript/retornaFuncao/` + codProj,{
-
         method: "GET",
-        credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-          "content-type": "application/json"
-        })
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          "Accept": "application/json",
+        },
+        credentials: "include"
       })
       .then(function (dadosJson) {
         var obj = dadosJson.json()
@@ -68,7 +67,6 @@ function carregaTabelas(){
       carrega.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> verificando...</td></tr>`
       carrega.style.display = 'block'
       fetch(`${window.origin}/contagemScript/geraContagem/${codProj}`,{
-
           method: "POST",
           headers: {
               "Accept": "application/json",
@@ -267,13 +265,12 @@ function buscaTipoContagem(Tab_Cod)
     var l = []
     codProj = document.getElementById('selProjeto').value
     fetch(`${window.origin}/contagemScript/obtemContagem/${codProj}/${Tab_Cod}`,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then(function (dadosJson) {
       var obj = dadosJson.json()
@@ -343,13 +340,12 @@ function verificaScript(){
     msg.style.display = "none"
     msg2.style.display = "none"
     fetch(`${window.origin}/contagemScript/verificaTabela/${codProj}`,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then(function (dadosJson) {
       var obj = dadosJson.json()
@@ -432,13 +428,12 @@ function verificaFuncao(){
     msg2.style.display = "none"
 
     fetch(`${window.origin}/contagemScript/verificaFuncao/${codProj}/${codFunc}`,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then(function (dadosJson) {
       var obj = dadosJson.json()
@@ -526,14 +521,12 @@ function refazfuncaoAnalisada()
   }
 
   fetch(`${window.origin}/contagemScript/obtemTodasContagem`,{
-
     method: "POST",
+    headers: {
+      "Accept": "application/json",
+    },
     credentials: "include",
-    body: JSON.stringify(dadosConfig),
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    body: JSON.stringify(dadosConfig)
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
@@ -600,14 +593,12 @@ function salvaContagemFuncao(){
   }
 
   fetch(`${window.origin}/contagemScript/SalvacontagemScript`,{
-  
-    method: "POST",
-    credentials: "include",
-    body: JSON.stringify(dadosConfig),
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(dadosConfig)
     })
     .then(function (response){
     if(response.status !== 200) {
@@ -635,13 +626,12 @@ function calcularPontos(){
   var codProj = document.getElementById('selProjeto').value
 
   fetch(`${window.origin}/contagemScript/calculaPontos/` + codProj,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then (function(dadosJson){
     var obj = dadosJson.json()
@@ -697,13 +687,12 @@ function deletarScript() {
     carrega.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> excluindo...</td></tr>`
     carrega.style.display = "block";
     fetch(`${window.origin}/contagemScript/deletarScript/` + codProj,{
-  
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
     .then (function(dadosJson){
       var obj = dadosJson.json()
@@ -750,13 +739,12 @@ $(document).ready(function () {
   var codProj = document.getElementById('selProjeto').value
 
   fetch(`${window.origin}/contagemModelo/verificaExistenciaContagem/` + codProj,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then (function(dadosJson){
     var obj = dadosJson.json()

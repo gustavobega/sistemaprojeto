@@ -4,44 +4,41 @@ function carregaPerguntas() {
     var tbodyPerguntas = document.getElementById("tbodyPerguntas");
     tbodyPerguntas.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> carregando...</td></tr>`
     fetch(`${window.origin}/fatorAjuste/retornaPerguntas/` + codProj,{
-
       method: "GET",
-      credentials: "include",
-      cache: "no-cache",
-      headers: new Headers({
-        "content-type": "application/json"
-      })
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+      },
+      credentials: "include"
     })
-    .then(function (response){
-      if(response.status !== 200) {
-        console.log(`Response status não é 200: ${response.status}`)
-        return ;
+    .then(function (dadosJson) {
+      var obj = dadosJson.json()
+      return obj
+    })
+    .then(function (dadosObj) {
+      var linhas = "";
+      for (var i = 0; i < dadosObj.length; i++) {
+
+        var template =
+            `<tr data-id="${i}">
+                <td id="codPergunta${i}" class="${dadosObj[i][0]}">${dadosObj[i][1]}</td>
+                <td ><input type="number" min="0" max="5" value="${dadosObj[i][3]}" id="Insertpeso${i}" class="pesoNV" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onkeyup="calcFator()" onclick="calcFator()"></td>  
+              </tr >                
+            ` 
+          linhas += template;
       }
-      response.json().then(function (data) {
-        var linhas = "";
-        for (var i = 0; i < data.length; i++) {
 
-          var template =
-              `<tr data-id="${i}">
-                  <td id="codPergunta${i}" class="${data[i][0]}">${data[i][1]}</td>
-                  <td ><input type="number" min="0" max="5" value="${data[i][3]}" id="Insertpeso${i}" class="pesoNV" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onkeyup="calcFator()" onclick="calcFator()"></td>  
-                </tr >                
-              ` 
-            linhas += template;
-        }
+      if (linhas == "") {
 
-        if (linhas == "") {
+        linhas = `<tr><td colspan="3">Sem resultado.</td></tr>`
+      }
 
-          linhas = `<tr><td colspan="3">Sem resultado.</td></tr>`
-        }
-
-        tbodyPerguntas.innerHTML = linhas;
-        msg = document.getElementById('MsgSucesso')
-        msg2 = document.getElementById('MsgErro')
-        msg.style.display = 'none'
-        msg2.style.display = 'none'
-        calcFator()
-      })
+      tbodyPerguntas.innerHTML = linhas;
+      msg = document.getElementById('MsgSucesso')
+      msg2 = document.getElementById('MsgErro')
+      msg.style.display = 'none'
+      msg2.style.display = 'none'
+      calcFator()
     })
   }
 
@@ -104,33 +101,26 @@ function cadFatorAjuste(){
       carrega.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> salvando...</td></tr>`
       carrega.style.display = "block";
       fetch(`${window.origin}/fatorAjuste/cadFatorAjuste`,{
-  
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify(dados),
-          cache: "no-cache",
-          headers: new Headers({
-            "content-type": "application/json"
-          })
-          })
-          .then(function (response){
-          if(response.status !== 200) {
-            console.log(`Response status não é 200: ${response.status}`)
-            return ;
-          }
-          msg.style.display = 'block'
-          msg.innerHTML = 'Cadastrado com Sucesso'
-  
-          response.json().then(function (data) {
-            console.log(data)
-          })
-          })
-          .finally(function () {
-            carrega.innerHTML = ""
-            carrega.style.display = "none";
-          });
-
-    }  
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(dados)
+      })
+      .then(function (dadosJson) {
+        var obj = dadosJson.json()
+        return obj
+      })
+      .then(function (dadosObj) {
+        msg.style.display = 'block'
+        msg.innerHTML = 'Cadastrado com Sucesso'
+      })
+      .finally(function () {
+        carrega.innerHTML = ""
+        carrega.style.display = "none";
+      });
+  }  
 }
 
 function refazer() {
@@ -138,13 +128,12 @@ function refazer() {
   var codProj = document.getElementById('proj').value
 
   fetch(`${window.origin}/fatorAjuste/refazer/${codProj}`,{
-
     method: "GET",
-    credentials: "include",
-    cache: "no-cache",
-    headers: new Headers({
-      "content-type": "application/json"
-    })
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+    },
+    credentials: "include"
   })
   .then(function (dadosJson) {
     var obj = dadosJson.json()
