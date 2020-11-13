@@ -138,7 +138,7 @@ def alterarContagem(contCod):
 
     return dadosJson
 
-@contagemM.route("/contagemModelo/deletarContagem/<string:contCod>", methods=["GET"])
+@contagemM.route("/contagemModelo/deletarContagem/<string:contCod>", methods=["DELETE"])
 def deletarContagem(contCod):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.contagem WHERE Cont_Cod=%s", (contCod))
