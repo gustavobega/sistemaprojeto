@@ -89,9 +89,10 @@ def retornaLinguagem(codProj):
         results=results
     )
 
-@estimativa.route("/estimativa/salvaEstimativa/<string:codProj>", methods=["POST"])
-def salvaEstimativa(codProj):
+@estimativa.route("/estimativa/salvaEstimativa", methods=["POST"])
+def salvaEstimativa():
     req = request.get_json()
+    codProj = req['codProj']
     modelo = req['modelo']
     modo = req['modo']
 

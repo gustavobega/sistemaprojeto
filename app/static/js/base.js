@@ -1,13 +1,11 @@
 function alteraLogin()
 {
     fetch(`${window.origin}/login/verificausuariologado`,{
-
         method: "GET",
-        credentials: "include",
-        cache: "no-cache",
-        headers: new Headers({
-          "content-type": "application/json"
-        })
+        headers: {
+          "Accept": "application/json",
+        },
+        credentials: "include"
       })
       .then(function (dadosJson) {
         var obj = dadosJson.json()

@@ -95,11 +95,10 @@ def cadFatorAjuste():
             conn.commit()
 
     cursor.close()
-    res = make_response(jsonify(req),200)
-
-    return res
-
     
+    return jsonify (
+        operacao = True
+    )
 
 @fatorA.route("/fatorAjuste/refazer/<string:codProj>", methods=["GET"])
 def refazer(codProj):

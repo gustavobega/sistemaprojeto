@@ -103,6 +103,7 @@ function cadFatorAjuste(){
       fetch(`${window.origin}/fatorAjuste/cadFatorAjuste`,{
             method: "POST",
             headers: {
+              "Content-Type": "application/json; charset=utf-8",
               "Accept": "application/json",
             },
             credentials: "include",
@@ -113,8 +114,11 @@ function cadFatorAjuste(){
         return obj
       })
       .then(function (dadosObj) {
-        msg.style.display = 'block'
-        msg.innerHTML = 'Cadastrado com Sucesso'
+        if (dadosObj.operacao)
+        {
+          msg.style.display = 'block'
+          msg.innerHTML = 'Cadastrado com Sucesso'
+        } 
       })
       .finally(function () {
         carrega.innerHTML = ""

@@ -7,7 +7,6 @@ function getEscopo() {
     fetch(`${window.origin}/relatorio/getEscopo/` + codProj,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
             "Accept": "application/json",
         },
         credentials: "include",
@@ -48,7 +47,6 @@ function gerarelatorioDado()
     fetch(`${window.origin}/relatorio/getContagemDado/` + codProj,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
             "Accept": "application/json",
         },
         credentials: "include",
@@ -66,7 +64,7 @@ function gerarelatorioDado()
                         <h3>Modelo - ${dadosObj.results[0][1]}</h3>
                         
                         <div class="menu1">
-                            <img src="../static/img/uploads/${dadosObj.results[0][3]}"/>
+                            <img src="../static/uploads/${dadosObj.results[0][3]}"/>
                         </div>
                         <div class="menu2">
                         <table class="table table-striped" id="tbContagem">
@@ -139,7 +137,7 @@ function gerarelatorioDado()
                     conteudo += `
                     <h3>Modelo - ${dadosObj.results[j][1]}</h3>
                     <div class="menu1">
-                        <img src="../static/img/uploads/${dadosObj.results[j][3]}"/>
+                        <img src="../static/uploads/${dadosObj.results[j][3]}"/>
                     </div>
                     
                     <div class="menu2">
@@ -219,7 +217,6 @@ function gerarelatorioTransacao()
     fetch(`${window.origin}/relatorio/getContagemTransacao/` + codProj,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
             "Accept": "application/json",
         },
         credentials: "include",
@@ -238,7 +235,7 @@ function gerarelatorioTransacao()
                         <h3>Tela - ${dadosObj.results[0][1]}</h3>
                         
                         <div class="menu1">
-                            <img src="../static/img/uploads/${dadosObj.results[0][3]}"/>
+                            <img src="../static/uploads/${dadosObj.results[0][3]}"/>
                         </div>
                         <div class="menu2">
                         <table class="table table-striped" id="tbContagem">
@@ -279,7 +276,7 @@ function gerarelatorioTransacao()
                     conteudo += `
                     <h3>Tela - ${dadosObj.results[j][1]}</h3>
                     <div class="menu1">
-                        <img src="../static/img/uploads/${dadosObj.results[j][3]}"/>
+                        <img src="../static/uploads/${dadosObj.results[j][3]}"/>
                     </div>
                     
                     <div class="menu2">
@@ -316,7 +313,6 @@ function geraFatorAjuste()
     fetch(`${window.origin}/relatorio/geraFatorAjuste/` + codProj,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
             "Accept": "application/json",
         },
         credentials: "include",
@@ -360,7 +356,6 @@ function geraContagem() {
     fetch(`${window.origin}/relatorio/getContagem/` + codProj,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json; charset=utf-8",
             "Accept": "application/json",
         },
         credentials: "include",

@@ -120,7 +120,6 @@ function calculaTipoTransacao(){
   fetch(`${window.origin}/estimativa/obtemContagemTipoTransacao/${codProj}`,{
     method: "GET",
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",
     },
     credentials: "include"
@@ -229,7 +228,6 @@ function obtemFatorAjuste(){
     fetch(`${window.origin}/contagemTela/retornaFatorAjuste/` + codProj,{
         method: "GET",
         headers: {
-          "Content-Type": "application/json; charset=utf-8",
           "Accept": "application/json",
         },
         credentials: "include"
@@ -256,7 +254,6 @@ function retornaLinguagem(){
   fetch(`${window.origin}/estimativa/retornaLinguagem/` + codProj,{
     method: "GET",
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",
     },
     credentials: "include"
@@ -400,6 +397,7 @@ function salvarEstimativa() {
   var tam = document.getElementById('tam').value.split(' ')[0]
 
   var dados = {
+    codProj,
     modelo,
     modo,
     loc,
@@ -409,9 +407,10 @@ function salvarEstimativa() {
     produtividade,
     tam
   }
-  fetch(`${window.origin}/estimativa/salvaEstimativa/` + codProj,{
+  fetch(`${window.origin}/estimativa/salvaEstimativa`,{
     method: "POST",
     headers: {
+      "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",
     },
     credentials: "include",

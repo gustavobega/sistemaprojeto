@@ -3,7 +3,7 @@ from app import conn
 from flask import render_template,request,redirect,flash,url_for
 
 @linguagem.route("/cadastroLinguagem",methods=["GET", "POST"])
-def cadLinguagem():
+def cadastroLinguagem():
     select = "SELECT * FROM bancoprojeto2020.linguagem"
     cursor = conn.cursor()
     cursor.execute(select)

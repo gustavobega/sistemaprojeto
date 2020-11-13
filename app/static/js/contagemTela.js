@@ -5,7 +5,6 @@ function carregaFuncoes(){
     codProj = document.getElementById('selProjeto').value
     document.getElementById('selFuncao').selectedIndex = -1
     fetch(`${window.origin}/contagemTela/retornaFuncao/` + codProj,{
-
         method: "GET",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
