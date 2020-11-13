@@ -273,7 +273,7 @@ function editaContagem(contCod){
 
     fetch(`${window.origin}/contagemTela/alterarContagem/${contCod}`,{
 
-      method: "PUT",
+      method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },

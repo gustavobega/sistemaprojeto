@@ -263,7 +263,7 @@ function editaContagem(contCod){
 
     fetch(`${window.origin}/contagemModelo/alterarContagem/${contCod}`,{
 
-      method: "PUT",
+      method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
