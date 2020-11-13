@@ -71,7 +71,7 @@ def cadImagem():
         operacao=True
     )
     
-@funcao.route("/deletarfuncao/<string:id>", methods=['GET'])
+@funcao.route("/deletarfuncao/<string:id>", methods=["GET"])
 def deletarfuncao(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.funcao WHERE Fun_Cod=%s",(id))
