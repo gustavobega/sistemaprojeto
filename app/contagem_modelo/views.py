@@ -65,7 +65,7 @@ def retornaFoto(codF):
     )
         
 @contagemM.route("/contagemModelo/retornaTipoCont/<string:codProj>", methods=["GET"])
-def retornaTipo2(codProj):
+def retornaTipo(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT TC_Cod FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
@@ -112,7 +112,7 @@ def adicionaContagem():
     )
 
 @contagemM.route("/contagemModelo/calculaPontos/<string:codProj>", methods=["GET"])
-def calculaPontos2(codProj):
+def calculaPontos(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Contribuicao FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'M'", (codProj))
     results = cursor.fetchall()
@@ -121,7 +121,7 @@ def calculaPontos2(codProj):
     return dadosJson
 
 @contagemM.route("/contagemModelo/retornaFatorAjuste/<string:codProj>", methods=["GET"])
-def retornaFatorAjuste2(codProj):
+def retornaFatorAjuste(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT FA_Valor FROM bancoprojeto2020.fatorajuste WHERE Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
@@ -130,7 +130,7 @@ def retornaFatorAjuste2(codProj):
     return dadosJson
 
 @contagemM.route("/contagemModelo/alterarContagem/<string:contCod>", methods=["GET"])
-def alterarContagem2(contCod):
+def alterarContagem(contCod):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Cod,Cont_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,TP_Cod FROM bancoprojeto2020.contagem WHERE Cont_Cod=%s", (contCod))
     results = cursor.fetchone()
@@ -139,7 +139,7 @@ def alterarContagem2(contCod):
     return dadosJson
 
 @contagemM.route("/contagemModelo/deletarContagem/<string:contCod>", methods=["GET"])
-def deletarContagem2(contCod):
+def deletarContagem(contCod):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.contagem WHERE Cont_Cod=%s", (contCod))
     conn.commit()
@@ -150,8 +150,7 @@ def deletarContagem2(contCod):
     )
 
 @contagemM.route("/contagemModelo/retornaContagem/<string:codF>/<string:codProj>", methods=["GET"])
-def retornaContagem2(codF,codProj):
-    #ta errado aqui
+def retornaContagem(codF,codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.contagem WHERE Fun_Cod=%s AND Proj_Cod=%s", (codF,codProj))
     results = cursor.fetchall()
