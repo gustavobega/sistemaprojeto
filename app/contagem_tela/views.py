@@ -4,7 +4,7 @@ from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
 from flask import session
 
-@contagemT.route("/contagemTela", methods=["GET", "POST"])
+@contagemT.route("/contagemTela", methods=["GET"])
 def contagemBancoTela():
     if session.get("USERNAME", None) is not None: 
         cursor = conn.cursor()
@@ -119,7 +119,7 @@ def alterarContagem(contCod):
 
     return dadosJson
 
-@contagemT.route("/contagemTela/deletarContagem/<string:contCod>", methods=["GET"])
+@contagemT.route("/contagemTela/deletarContagem/<string:contCod>", methods=["DELETE"])
 def deletarContagem(contCod):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.contagem WHERE Cont_Cod=%s", (contCod))

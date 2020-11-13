@@ -2,7 +2,7 @@ from . import caracteristica
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 
-@caracteristica.route("/cadPergunta",methods=["GET", "POST"])
+@caracteristica.route("/cadPergunta",methods=["GET"])
 def cadPergunta():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.fatorajusteperguntas")
@@ -29,7 +29,7 @@ def cadPergunta():
 
     return render_template('cadPergunta.html', results=results, results3=results3, lista=lista, tam=tam)
 
-@caracteristica.route("/insertpergunta",methods=["GET", "POST"])
+@caracteristica.route("/insertpergunta",methods=["POST"])
 def insertpergunta():
     if request.method == "POST":
        caracteristica = request.form['caracteristica'] 
@@ -44,7 +44,7 @@ def insertpergunta():
         
     return redirect(url_for('caracteristica.cadPergunta'))
 
-@caracteristica.route("/alterarpergunta",methods=['POST', 'GET'])
+@caracteristica.route("/alterarpergunta",methods=['PUT'])
 def alterarpergunta():
     if request.method == "POST":
        id = request.form['id']
@@ -60,7 +60,7 @@ def alterarpergunta():
 
        return redirect(url_for('caracteristica.cadPergunta'))
 
-@caracteristica.route("/deletarpergunta/<string:id>",methods=['POST', 'GET'])
+@caracteristica.route("/deletarpergunta/<string:id>",methods=['DELETE'])
 def deletarpergunta(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.fatorajusteperguntas WHERE FAP_Cod=%s",(id))

@@ -5,7 +5,7 @@ from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
 from flask import session
 
-@contagemM.route("/contagemModelo", methods=["GET", "POST"])
+@contagemM.route("/contagemModelo", methods=["GET"])
 def contagemBancoModelo():
     if session.get("USERNAME", None) is not None: 
         cursor = conn.cursor()

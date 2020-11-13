@@ -278,7 +278,7 @@ function editaContagem(contCod){
 
     fetch(`${window.origin}/contagemTela/alterarContagem/${contCod}`,{
 
-      method: "GET",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         "Accept": "application/json",
@@ -306,7 +306,7 @@ function editaContagem(contCod){
 function deletarContagem(contCod){
 
   fetch(`${window.origin}/contagemTela/deletarContagem/${contCod}`,{
-    method: "GET",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",

@@ -3,7 +3,7 @@ from app import conn
 from flask import render_template,request,redirect,flash,url_for
 from flask import session
 
-@projeto.route("/cadastroProjeto",methods=["GET", "POST"])
+@projeto.route("/cadastroProjeto",methods=['GET'])
 def cadProjeto():
     if session.get("USERNAME", None) is not None:
         cursor = conn.cursor()
@@ -43,7 +43,7 @@ def cadProjeto():
     else:
         return redirect(url_for("login.sign_in"))
 
-@projeto.route("/insertproj",methods=["GET", "POST"])
+@projeto.route("/insertproj",methods=['POST'])
 def insertproj():
     if request.method == "POST":
        nome = request.form['nome'] 
@@ -63,7 +63,7 @@ def insertproj():
         
     return redirect(url_for('projeto.cadProjeto'))
 
-@projeto.route("/alterarproj",methods=['POST', 'GET'])
+@projeto.route("/alterarproj",methods=['PUT'])
 def alterarproj():
     if request.method == "POST":
        id = request.form['id']
@@ -86,7 +86,7 @@ def alterarproj():
 
        return redirect(url_for('projeto.cadProjeto'))
 
-@projeto.route("/deletarproj/<string:id>",methods=['POST', 'GET'])
+@projeto.route("/deletarproj/<string:id>",methods=['DELETE'])
 def deletarproj(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s",(id))

@@ -6,7 +6,7 @@ from flask import render_template,request,redirect,flash,url_for
 def cadempresa():
     return render_template('cad_empresa.html')
 
-@cad_empresa.route("/insert",methods=['POST', 'GET'])
+@cad_empresa.route("/insert",methods=['POST'])
 def insert():
     if request.method == "POST":
        nome = request.form['nome'] 

@@ -2,7 +2,7 @@ from . import linguagem
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 
-@linguagem.route("/cadastroLinguagem",methods=["GET", "POST"])
+@linguagem.route("/cadastroLinguagem",methods=['GET'])
 def cadastroLinguagem():
     select = "SELECT * FROM bancoprojeto2020.linguagem"
     cursor = conn.cursor()
@@ -10,7 +10,7 @@ def cadastroLinguagem():
     results = cursor.fetchall()
     return render_template('cadLinguagem.html', results=results)
 
-@linguagem.route("/insertling",methods=["GET", "POST"])
+@linguagem.route("/insertling",methods=['POST'])
 def insertling():
     if request.method == "POST":
        descricao = request.form['descricao'] 
@@ -23,7 +23,7 @@ def insertling():
 
        return redirect(url_for('linguagem.cadLinguagem'))
 
-@linguagem.route("/alterarling",methods=['POST', 'GET'])
+@linguagem.route("/alterarling",methods=['PUT'])
 def alterarling():
     if request.method == "POST":
        id = request.form['id']
@@ -37,7 +37,7 @@ def alterarling():
 
        return redirect(url_for('linguagem.cadLinguagem'))
 
-@linguagem.route("/deletarling/<string:id>",methods=['POST', 'GET'])
+@linguagem.route("/deletarling/<string:id>",methods=['DELETE'])
 def deletarproj(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.linguagem WHERE Ling_Cod=%s",(id))

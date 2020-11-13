@@ -134,7 +134,6 @@ function refazer() {
   fetch(`${window.origin}/fatorAjuste/refazer/${codProj}`,{
     method: "GET",
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",
     },
     credentials: "include"

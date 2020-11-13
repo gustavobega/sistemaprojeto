@@ -4,7 +4,7 @@ from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify, make_response,json
 from flask import session
 
-@fatorA.route("/fatorAjuste", methods=["GET", "POST"])
+@fatorA.route("/fatorAjuste", methods=["GET"])
 def calcFatorAjuste():
     if session.get("USERNAME", None) is not None:   
         if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':

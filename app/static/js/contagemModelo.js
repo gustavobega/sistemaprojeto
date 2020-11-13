@@ -268,7 +268,7 @@ function editaContagem(contCod){
 
     fetch(`${window.origin}/contagemModelo/alterarContagem/${contCod}`,{
 
-      method: "GET",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         "Accept": "application/json",
@@ -299,7 +299,7 @@ function editaContagem(contCod){
 function deletarContagem(contCod){
 
   fetch(`${window.origin}/contagemModelo/deletarContagem/${contCod}`,{
-    method: "GET",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "Accept": "application/json",

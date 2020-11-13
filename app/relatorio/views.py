@@ -4,7 +4,7 @@ from flask import render_template,request,redirect,flash,url_for
 from flask import jsonify
 from flask import session
 
-@relatorio.route("/relatorio",methods=["GET", "POST"])
+@relatorio.route("/relatorio",methods=['GET'])
 def report():
     if session.get("USERNAME", None) is not None:
         cursor = conn.cursor()
@@ -21,7 +21,7 @@ def report():
     else:
         return redirect(url_for("login.sign_in"))
 
-@relatorio.route("/relatorio/getContagemDado/<string:codProj>",methods=["GET"])
+@relatorio.route("/relatorio/getContagemDado/<string:codProj>", methods=["GET"])
 def getContagemDado(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT f.Fun_Cod,Fun_Nome,Cont_Descricao,Fun_Caminho,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.contagem as c ON f.Fun_Cod = c.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'M' INNER JOIN bancoprojeto2020.tipo as p ON p.TP_Cod = c.TP_Cod", (codProj))

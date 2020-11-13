@@ -3,7 +3,7 @@ from app import conn
 from flask import render_template,request,redirect,flash,url_for
 from flask import session
 
-@empresa.route("/empresa",methods=["GET", "POST"])
+@empresa.route("/empresa",methods=["GET"])
 def exibirempresa():
     if session.get("USERNAME", None) is not None: 
         if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
@@ -17,7 +17,7 @@ def exibirempresa():
     else:
         return render_template('cad_empresa.html')
 
-@empresa.route("/insertemp",methods=['POST', 'GET'])
+@empresa.route("/insertemp", methods=['POST'])
 def insertemp():
     if request.method == "POST":
        nome = request.form['nome'] 
@@ -32,7 +32,7 @@ def insertemp():
 
        return redirect(url_for('empresa.exibirempresa'))
 
-@empresa.route("/alteraremp",methods=['POST', 'GET'])
+@empresa.route("/alteraremp",methods=['PUT'])
 def alteraremp():
     if request.method == "POST":
        id = request.form['id']
@@ -47,7 +47,7 @@ def alteraremp():
 
        return redirect(url_for('empresa.exibirempresa'))
 
-@empresa.route("/deletaremp/<string:id>",methods=['POST', 'GET'])
+@empresa.route("/deletaremp/<string:id>",methods=['DELETE'])
 def deletaremp(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.empresa WHERE Emp_Cod=%s",(id))

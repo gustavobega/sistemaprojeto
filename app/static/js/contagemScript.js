@@ -687,7 +687,7 @@ function deletarScript() {
     carrega.innerHTML = `<tr><td colspan="3"><img src=\"../static/img/ajax-loader.gif"\ /> excluindo...</td></tr>`
     carrega.style.display = "block";
     fetch(`${window.origin}/contagemScript/deletarScript/` + codProj,{
-      method: "GET",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
         "Accept": "application/json",

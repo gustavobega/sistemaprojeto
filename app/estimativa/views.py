@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for,request
 from flask import jsonify, make_response,json
 from flask import session
 
-@estimativa.route("/estimativa")
+@estimativa.route("/estimativa", methods=['GET'])
 def estimar():
     if session.get("USERNAME", None) is not None:  
         cursor = conn.cursor()

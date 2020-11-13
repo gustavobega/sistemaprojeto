@@ -6,7 +6,7 @@ from flask import session
 import os
 from werkzeug.utils import secure_filename
 
-@funcao.route("/cadastroFuncao", methods=["GET", "POST"])
+@funcao.route("/cadastroFuncao", methods=["GET"])
 def cadFuncao():
     if session.get("USERNAME", None) is not None:  
         if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
@@ -50,7 +50,7 @@ def insertfuncao():
         cod=results[0]
     )
 
-@funcao.route("/funcao/cadImagem",methods=["POST"])
+@funcao.route("/funcao/cadImagem", methods=["POST"])
 def cadImagem():
 
     req = request.form
@@ -71,7 +71,7 @@ def cadImagem():
         operacao=True
     )
     
-@funcao.route("/deletarfuncao/<string:id>",methods=['POST', 'GET'])
+@funcao.route("/deletarfuncao/<string:id>", methods=['GET'])
 def deletarfuncao(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.funcao WHERE Fun_Cod=%s",(id))
@@ -81,7 +81,7 @@ def deletarfuncao(id):
 
     return redirect(url_for('funcao.cadFuncao'))
 
-@funcao.route("/funcao/getFuncoes/<string:codProj>",methods=['POST', 'GET'])
+@funcao.route("/funcao/getFuncoes/<string:codProj>",methods=['GET'])
 def getFuncoes(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.projeto as p ON f.proj_cod = p.proj_cod and p.proj_cod=%s",(codProj))

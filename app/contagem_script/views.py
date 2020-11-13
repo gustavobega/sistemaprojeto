@@ -5,7 +5,7 @@ from flask import jsonify, make_response,json
 from flask import session
 from werkzeug.utils import secure_filename
 
-@contagemS.route("/contagemScript", methods=["GET", "POST"])
+@contagemS.route("/contagemScript", methods=["GET"])
 def contagemScript():
     if session.get("USERNAME", None) is not None: 
         cursor = conn.cursor()
@@ -425,7 +425,7 @@ def verificaExistenciaContagem(codProj):
         operacao=operacao,
     )
 
-@contagemS.route("/contagemScript/deletarScript/<string:codProj>", methods=["GET"])
+@contagemS.route("/contagemScript/deletarScript/<string:codProj>", methods=["DELETE"])
 def deletarScript(codProj):
     cursor = conn.cursor()
     cursor2 = conn.cursor()

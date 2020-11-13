@@ -2,7 +2,7 @@ from . import login
 from flask import render_template, request, session, redirect, url_for, jsonify, flash
 from app import conn
 
-@login.route("/sign-in", methods=["GET", "POST"])
+@login.route("/sign-in", methods=['GET'])
 def sign_in():
     if request.method == 'POST':
         req = request.form
@@ -24,12 +24,12 @@ def sign_in():
 
     return render_template('login.html')
 
-@login.route("/sign-out")
+@login.route("/sign-out", methods=['GET'])
 def sign_out():
     session.pop("USERNAME" , None)
     return redirect(url_for("login.sign_in"))
 
-@login.route("/login/verificausuariologado")
+@login.route("/login/verificausuariologado", methods=['GET'])
 def verificausuariologado():
     operacao = True
     usuario = ""
