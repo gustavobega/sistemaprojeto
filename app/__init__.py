@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 import pymysql
 
-UPLOAD_FOLDER = 'app/static/uploads/' 
+UPLOAD_FOLDER = 'app/static/uploads' 
 ALLOWED_EXTENSIONS = ['PNG', 'JPG', 'JPEG', 'GIF']
 
 app = Flask(__name__)
