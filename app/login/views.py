@@ -2,7 +2,7 @@ from . import login
 from flask import render_template, request, session, redirect, url_for, jsonify, flash
 from app import conn
 
-@login.route("/sign-in", methods=['GET'])
+@login.route("/sign-in", methods=['GET','POST'])
 def sign_in():
     if request.method == 'POST':
         req = request.form

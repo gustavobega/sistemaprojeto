@@ -102,4 +102,3 @@ def getEscopo(codProj):
     return jsonify (
         escopo=escopo
     )
- 
