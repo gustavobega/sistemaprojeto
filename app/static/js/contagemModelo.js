@@ -10,7 +10,6 @@ function carregaFuncoes(){
         method: "GET",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
-          "Accept": "application/json",
         },
         credentials: "include"
       })
@@ -54,7 +53,6 @@ function carregaFoto(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -88,7 +86,6 @@ function carregaTipoCont(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include",
   })
@@ -122,7 +119,6 @@ function carregaTabela(){
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })
@@ -232,7 +228,6 @@ function adicionarFuncao(){
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
-          "Accept": "application/json",
         },
         credentials: "include",
         body: JSON.stringify(dados),
@@ -271,7 +266,6 @@ function editaContagem(contCod){
       method: "PUT",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -302,7 +296,6 @@ function deletarContagem(contCod){
     method: "DELETE",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })
@@ -327,7 +320,6 @@ function calcularPontos(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -353,7 +345,6 @@ function verificaContagem(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -364,7 +355,6 @@ function verificaContagem(){
     .then(function (dadosObj) {
       if (dadosObj.operacao)
       {
-        console.log(dadosObj.dado[0])
         document.getElementById('contCod').value = dadosObj.dado[0]
       }  
     })
@@ -405,7 +395,6 @@ $(document).ready(function () {
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })

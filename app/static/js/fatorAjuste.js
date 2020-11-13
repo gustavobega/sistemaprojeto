@@ -7,7 +7,6 @@ function carregaPerguntas() {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -104,7 +103,6 @@ function cadFatorAjuste(){
             method: "POST",
             headers: {
               "Content-Type": "application/json; charset=utf-8",
-              "Accept": "application/json",
             },
             credentials: "include",
             body: JSON.stringify(dados)
@@ -134,7 +132,7 @@ function refazer() {
   fetch(`${window.origin}/fatorAjuste/refazer/${codProj}`,{
     method: "GET",
     headers: {
-      "Accept": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
     credentials: "include"
   })

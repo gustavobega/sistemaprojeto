@@ -29,7 +29,6 @@ function calculaTipoDado(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -120,7 +119,7 @@ function calculaTipoTransacao(){
   fetch(`${window.origin}/estimativa/obtemContagemTipoTransacao/${codProj}`,{
     method: "GET",
     headers: {
-      "Accept": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
     credentials: "include"
   })
@@ -183,7 +182,6 @@ function obtemPontos(){
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })
@@ -228,7 +226,7 @@ function obtemFatorAjuste(){
     fetch(`${window.origin}/contagemTela/retornaFatorAjuste/` + codProj,{
         method: "GET",
         headers: {
-          "Accept": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include"
       })
@@ -254,7 +252,7 @@ function retornaLinguagem(){
   fetch(`${window.origin}/estimativa/retornaLinguagem/` + codProj,{
     method: "GET",
     headers: {
-      "Accept": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
     credentials: "include"
   })
@@ -411,7 +409,6 @@ function salvarEstimativa() {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include",
     body: JSON.stringify(dados)

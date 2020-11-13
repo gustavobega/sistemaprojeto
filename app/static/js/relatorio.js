@@ -7,7 +7,7 @@ function getEscopo() {
     fetch(`${window.origin}/relatorio/getEscopo/` + codProj,{
         method: "GET",
         headers: {
-            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include",
     })
@@ -47,7 +47,7 @@ function gerarelatorioDado()
     fetch(`${window.origin}/relatorio/getContagemDado/` + codProj,{
         method: "GET",
         headers: {
-            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include",
     })
@@ -217,7 +217,7 @@ function gerarelatorioTransacao()
     fetch(`${window.origin}/relatorio/getContagemTransacao/` + codProj,{
         method: "GET",
         headers: {
-            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include",
     })
@@ -313,7 +313,7 @@ function geraFatorAjuste()
     fetch(`${window.origin}/relatorio/geraFatorAjuste/` + codProj,{
         method: "GET",
         headers: {
-            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include",
     })
@@ -356,7 +356,7 @@ function geraContagem() {
     fetch(`${window.origin}/relatorio/getContagem/` + codProj,{
         method: "GET",
         headers: {
-            "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
         },
         credentials: "include",
     })

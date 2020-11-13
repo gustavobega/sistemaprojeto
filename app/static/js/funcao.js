@@ -39,7 +39,7 @@ function cadFuncao(){
         fetch(`${window.origin}/funcao/cadImagem`,{
             method: "POST",
             headers: {
-                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
             },
             credentials: "include",
             body: fd        

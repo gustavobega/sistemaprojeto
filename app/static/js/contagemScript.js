@@ -11,7 +11,6 @@ function carregaFuncoes(){
         method: "GET",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
-          "Accept": "application/json",
         },
         credentials: "include"
       })
@@ -69,7 +68,7 @@ function carregaTabelas(){
       fetch(`${window.origin}/contagemScript/geraContagem/${codProj}`,{
           method: "POST",
           headers: {
-              "Accept": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
           },
           body: fd
         })
@@ -268,7 +267,6 @@ function buscaTipoContagem(Tab_Cod)
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -343,7 +341,6 @@ function verificaScript(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -431,7 +428,6 @@ function verificaFuncao(){
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -523,7 +519,7 @@ function refazfuncaoAnalisada()
   fetch(`${window.origin}/contagemScript/obtemTodasContagem`,{
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
     credentials: "include",
     body: JSON.stringify(dadosConfig)
@@ -595,7 +591,7 @@ function salvaContagemFuncao(){
   fetch(`${window.origin}/contagemScript/SalvacontagemScript`,{
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
       credentials: "include",
       body: JSON.stringify(dadosConfig)
@@ -629,7 +625,6 @@ function calcularPontos(){
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })
@@ -690,7 +685,6 @@ function deletarScript() {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Accept": "application/json",
       },
       credentials: "include"
     })
@@ -742,7 +736,6 @@ $(document).ready(function () {
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Accept": "application/json",
     },
     credentials: "include"
   })
