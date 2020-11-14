@@ -86,7 +86,7 @@ def alterarproj():
 
        return redirect(url_for('projeto.cadProjeto'))
 
-@projeto.route("/deletarproj/<string:id>",methods=['DELETE'])
+@projeto.route("/deletarproj/<string:id>",methods=['GET'])
 def deletarproj(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s",(id))
