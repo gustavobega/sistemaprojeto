@@ -9,14 +9,16 @@ from werkzeug.utils import secure_filename
 @funcao.route("/cadastroFuncao", methods=["GET"])
 def cadFuncao():
     if session.get("USERNAME", None) is not None:  
+        cursor = conn.cursor()
         if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
             select = "SELECT * FROM bancoprojeto2020.projeto"
         else:
             select = "SELECT * FROM bancoprojeto2020.projeto where emp_cod = " + str(session.get('ID'))  
 
-        cursor3 = conn.cursor()
-        cursor3.execute(select)
-        results3 = cursor3.fetchall()
+        cursor.execute(select)
+        results3 = cursor.fetchall()
+        cursor.close()
+
         codProj = 0
         if results3 != ():
             codProj = results3[0][0]
@@ -24,6 +26,7 @@ def cadFuncao():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.projeto as p ON f.proj_cod = p.proj_cod and p.proj_cod=%s", (str(codProj)))
         results = cursor.fetchall()
+        cursor.close()
 
         tam = len(results)
         return render_template('cadFuncao.html', results=results, results3=results3, tam=tam)
@@ -42,10 +45,13 @@ def insertfuncao():
     conn.commit()
     cursor.close()
     
-    cursor2 = conn.cursor()
-    cursor2.execute("SELECT * FROM bancoprojeto2020.funcao ORDER BY Fun_Cod DESC LIMIT 1")
-    results = cursor2.fetchone()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM bancoprojeto2020.funcao ORDER BY Fun_Cod DESC LIMIT 1")
+    results = cursor.fetchone()
+    cursor.close()
+
     flash("Cadastrado com Sucesso!")
+
     return jsonify (
         cod=results[0]
     )
@@ -76,8 +82,9 @@ def deletarfuncao(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.funcao WHERE Fun_Cod=%s",(id))
     conn.commit()
-    flash("Deletado com Sucesso!")
     cursor.close()
+
+    flash("Deletado com Sucesso!")
 
     return redirect(url_for('funcao.cadFuncao'))
 
@@ -87,6 +94,7 @@ def getFuncoes(codProj):
     cursor.execute("SELECT * FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.projeto as p ON f.proj_cod = p.proj_cod and p.proj_cod=%s",(codProj))
     results = cursor.fetchall()
     cursor.close()
+    
     operacao = True
     if results == ():
         operacao = False

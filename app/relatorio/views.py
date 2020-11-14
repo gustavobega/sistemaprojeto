@@ -26,18 +26,21 @@ def getContagemDado(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT f.Fun_Cod,Fun_Nome,Cont_Descricao,Fun_Caminho,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.contagem as c ON f.Fun_Cod = c.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'M' INNER JOIN bancoprojeto2020.tipo as p ON p.TP_Cod = c.TP_Cod", (codProj))
     results = cursor.fetchall()
+    cursor.close()
 
     operacaoScript = False
     operacao = True
+    
     if results == ():
+        cursor = conn.cursor()
         cursor.execute("SELECT f.Fun_Cod,Fun_Nome,Cont_Descricao,Fun_Caminho,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao FROM bancoprojeto2020.funcao as f INNER JOIN bancoprojeto2020.contagem as c ON f.Fun_Cod = c.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'S' INNER JOIN bancoprojeto2020.tipo as p ON p.TP_Cod = c.TP_Cod", (codProj))
         results = cursor.fetchall()
+        cursor.close()
         operacaoScript = True
         
     if results == ():
         operacao = False
 
-    cursor.close()
     return jsonify (
         operacaoScript=operacaoScript,
         operacao=operacao,

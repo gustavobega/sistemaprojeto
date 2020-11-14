@@ -15,6 +15,7 @@ def contagemScript():
             cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID')))
         results = cursor.fetchall()
 
+        cursor.close()
         return render_template('contScript.html', results=results)
     else:
         return redirect(url_for("login.sign_in"))
@@ -24,6 +25,7 @@ def retornaFuncao(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Fun_Cod,Fun_Nome FROM bancoprojeto2020.funcao WHERE Proj_Cod=%s AND Fun_Tipo='S'", (codProj))
     results = cursor.fetchall()
+    cursor.close()
     operacao = True
 
     if results == ():
@@ -155,7 +157,6 @@ def geraContagem(codProj):
 
 def adicionaTabela(codProj, lista):
     cursor = conn.cursor()
-    
     sql = "INSERT INTO bancoprojeto2020.tabela (Tab_Nome,Proj_Cod) VALUES "
 
     tam = len(lista)
@@ -186,8 +187,6 @@ def getCodTabela(codProj):
     return results
 
 def adicionaAtributo(codProj, lista):
-    cursor = conn.cursor()
-    cursor2 = conn.cursor()
     sql = "INSERT INTO bancoprojeto2020.atributo (AT_Descricao,Tab_Cod,Proj_Cod) VALUES "
     sql2 = ""
     tam = len(lista)
@@ -197,8 +196,10 @@ def adicionaAtributo(codProj, lista):
         tam2 = len(lista[i])
         sql2 = "SELECT Tab_Cod FROM bancoprojeto2020.tabela WHERE Tab_Nome = '" + lista[i-1] + "' AND Proj_Cod = " + codProj
         
-        cursor2.execute(sql2)
-        res = cursor2.fetchone()
+        cursor = conn.cursor()
+        cursor.execute(sql2)
+        res = cursor.fetchone()
+        cursor.close()
         Tab_Cod = res[0]
 
         while j < tam2:
@@ -208,11 +209,11 @@ def adicionaAtributo(codProj, lista):
         i = i + 2
 
     result = sql.rstrip(',')
+    cursor = conn.cursor()
     linhasAfetadas = cursor.execute(result)
-
     conn.commit()
     cursor.close()
-    cursor2.close()
+
     operacao = False
     if linhasAfetadas > 0:
         operacao = True
@@ -220,9 +221,6 @@ def adicionaAtributo(codProj, lista):
     return operacao
 
 def adicionaPrimaryAndForeign(codProj, lista, listaPrimary, listareferencia):
-    cursor3 = conn.cursor()
-    cursor4 = conn.cursor()
-    cursor5 = conn.cursor()
     tam = len(listareferencia)
     i = 0
     while i < tam:
@@ -230,15 +228,20 @@ def adicionaPrimaryAndForeign(codProj, lista, listaPrimary, listareferencia):
         tam2 = len(listareferencia[i])
         if tam2 > 0:
             #pega o codigo da tabela onde está o atributo
+            cursor = conn.cursor()
             sql = "SELECT Tab_Cod FROM bancoprojeto2020.tabela WHERE Tab_Nome = '" + listareferencia[i][j] + "' AND Proj_Cod = " + str(codProj)
-            cursor3.execute(sql)
-            res = cursor3.fetchone()
+            cursor.execute(sql)
+            res = cursor.fetchone()
+            cursor.close()
             tab_cod2 = res[0]
 
             while j+1 < tam2:
                 #adiciona o atributo como foreign key
+                cursor = conn.cursor()
                 sql = "UPDATE bancoprojeto2020.atributo set AT_Foreign = True WHERE Tab_Cod = " + str(tab_cod2) + " AND AT_Descricao = '" + listareferencia[i][j+1] + "' AND Proj_Cod = " + str(codProj)
-                cursor4.execute(sql)
+                cursor.execute(sql)
+                conn.commit()
+                cursor.close()
 
                 j = j + 1
                 
@@ -252,17 +255,16 @@ def adicionaPrimaryAndForeign(codProj, lista, listaPrimary, listareferencia):
         j = 0
         tam2 = len(listaPrimary[i])
         while j < tam2:
+            cursor = conn.cursor()
             sql = "UPDATE bancoprojeto2020.atributo set AT_Primary = True WHERE Tab_Cod = " + str(results[i][0]) + " AND AT_Descricao = '" + listaPrimary[i][j] + "' AND Proj_Cod = " + str(codProj)
-            cursor5.execute(sql)
+            cursor.execute(sql)
             conn.commit()
+            cursor.close()
 
             j = j + 1
 
         i = i + 1
 
-    cursor3.close()
-    cursor4.close()
-    cursor5.close()
     operacao = True
 
     return operacao
@@ -293,9 +295,10 @@ def verificaTabela(codProj):
     sql = "SELECT Tab_Cod,Tab_Nome FROM bancoprojeto2020.tabela WHERE Proj_Cod = " + codProj  
     cursor.execute(sql)
     results = cursor.fetchall()
+    cursor.close()
 
     operacao = True
-    cursor.close()
+    
     if results == ():
         operacao = False
 
@@ -309,9 +312,9 @@ def obtemContagem(codProj,Tab_Cod):
     cursor = conn.cursor()
     sql = "SELECT AT_Descricao,AT_Primary,AT_Foreign,Tab_Cod FROM bancoprojeto2020.atributo WHERE Proj_Cod = " + str(codProj) + " AND Tab_Cod = " + str(Tab_Cod)
     cursor.execute(sql)
-    results = cursor.fetchall()
-      
+    results = cursor.fetchall()  
     cursor.close()
+
     operacao = True
     if results == ():
         operacao = False
@@ -339,8 +342,8 @@ def obtemTodasContagem():
     sql = "SELECT AT_Descricao,AT_Primary,AT_Foreign,Tab_Cod FROM bancoprojeto2020.atributo WHERE Proj_Cod = " + str(codProj) + " AND " + auxTab
     cursor.execute(sql)
     results = cursor.fetchall()
-    
     cursor.close()
+
     operacao = True
 
     if results == ():
@@ -362,13 +365,14 @@ def SalvacontagemScript():
     tableJa = req['tableJa']
     tableTR = req['tableTR']
 
+    #ajustar aqui
     tp = 24
 
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.contagem WHERE Fun_Cod = " + codFunc + " AND Proj_Cod = " + codProj)
     conn.commit()
+    cursor.close()
 
-    cursor2 = conn.cursor()
     tam = len(tableJa)
     i = 0
 
@@ -384,8 +388,10 @@ def SalvacontagemScript():
 
         tab_cod = tableJa[i]  
         TR = tableTR[i]
-        cursor2.execute("INSERT INTO bancoprojeto2020.contagem(Fun_Cod,TP_Cod,Proj_Cod,Cont_Descricao,Cont_TD,Cont_TR,Tab_Cod) VALUES(%s,%s,%s,%s,%s,%s,%s)",(codFunc,tp,codProj,descricao,TD,TR,tab_cod))
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO bancoprojeto2020.contagem(Fun_Cod,TP_Cod,Proj_Cod,Cont_Descricao,Cont_TD,Cont_TR,Tab_Cod) VALUES(%s,%s,%s,%s,%s,%s,%s)",(codFunc,tp,codProj,descricao,TD,TR,tab_cod))
         conn.commit()
+        cursor.close()
         i = i + 1
 
     operacao = True
@@ -399,6 +405,7 @@ def calculaPontos(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_TD,c.Fun_Cod FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'S'", (codProj))
     results = cursor.fetchall()
+    cursor.close()
 
     operacao = True
 
@@ -415,9 +422,10 @@ def verificaExistenciaContagem(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.contagem as c INNER JOIN bancoprojeto2020.funcao as f ON c.Fun_Cod = f.Fun_Cod AND c.Proj_Cod=%s AND Fun_Tipo='S'", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     operacao = True
 
-    cursor.close()
     if results == ():
         operacao = False
 
@@ -428,21 +436,20 @@ def verificaExistenciaContagem(codProj):
 @contagemS.route("/contagemScript/deletarScript/<string:codProj>", methods=["DELETE"])
 def deletarScript(codProj):
     cursor = conn.cursor()
-    cursor2 = conn.cursor()
-    cursor3 = conn.cursor()
     cursor.execute("SELECT Tab_Cod FROM bancoprojeto2020.tabela WHERE Proj_Cod=%s",(codProj))
     results = cursor.fetchall()
+    cursor.close()
 
     for tabelaCod in results:
-        cursor2.execute("DELETE FROM bancoprojeto2020.atributo WHERE Tab_Cod = %s", (tabelaCod))
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM bancoprojeto2020.atributo WHERE Tab_Cod = %s", (tabelaCod))
         conn.commit()
+        cursor.close()
     
-    linhasAfetadas = cursor3.execute("DELETE FROM bancoprojeto2020.tabela WHERE Proj_Cod = %s", (codProj))
+    cursor = conn.cursor()
+    linhasAfetadas = cursor.execute("DELETE FROM bancoprojeto2020.tabela WHERE Proj_Cod = %s", (codProj))
     conn.commit()
-
     cursor.close()
-    cursor2.close()
-    cursor3.close()
 
     operacao = True
     if linhasAfetadas == 0:

@@ -7,23 +7,26 @@ def cadPergunta():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.fatorajusteperguntas")
     results = cursor.fetchall()
+    cursor.close()
     lista = []
 
     #pega o codigo do tipo de contagem do banco e adiciona na lista o tipo de contagem daquele codigo
     for row in results:
         cod = row[2]
-        cursor2 = conn.cursor()
-        cursor2.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
-        results2 = cursor2.fetchone()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
+        results2 = cursor.fetchone()
+        cursor.close()
         tc_descricao = results2[1]
 
         lista.append(tc_descricao)
 
     #pega os tipos de contagem para utilizar na hora de alterar 
     select = "SELECT * FROM bancoprojeto2020.tipocontagem"
-    cursor3 = conn.cursor()
-    cursor3.execute(select)
-    results3 = cursor3.fetchall()
+    cursor = conn.cursor()
+    cursor.execute(select)
+    results3 = cursor.fetchall()
+    cursor.close()
 
     tam = len(lista)
 

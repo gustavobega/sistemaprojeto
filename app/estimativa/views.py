@@ -14,6 +14,7 @@ def estimar():
             cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID')))
 
         results = cursor.fetchall()
+        cursor.close()
         
         return render_template("estimativa.html", results=results)
     else:
@@ -22,22 +23,23 @@ def estimar():
 @estimativa.route("/estimativa/obtemContagemTipoDado/<string:codProj>", methods=["GET"])
 def obtemContagemTipoDado(codProj):
     cursor = conn.cursor()
-    cursor2 = conn.cursor()
-    
     cursor.execute("SELECT Cont_Descricao,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,c.Fun_Cod FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'M' INNER JOIN bancoprojeto2020.tipo AS t ON c.TP_Cod = t.TP_Cod", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     operacaoModelo = True
     operacaoScript = False
+
+    cursor = conn.cursor()
     if results == ():
         operacaoModelo = False
-        cursor2.execute("SELECT Cont_Descricao,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,c.Fun_Cod FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'S' INNER JOIN bancoprojeto2020.tipo AS t ON c.TP_Cod = t.TP_Cod", (codProj))
-        results = cursor2.fetchall()
+        cursor.execute("SELECT Cont_Descricao,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,c.Fun_Cod FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'S' INNER JOIN bancoprojeto2020.tipo AS t ON c.TP_Cod = t.TP_Cod", (codProj))
+        results = cursor.fetchall()
+        cursor.close()
 
         if results != ():
             operacaoScript = True
 
-    cursor.close()
-    cursor2.close()
     return jsonify (
         operacaoModelo=operacaoModelo,
         operacaoScript=operacaoScript,
@@ -49,6 +51,8 @@ def obtemContagemTipoTransacao(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Descricao,TP_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,f.Fun_Nome FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'T' INNER JOIN bancoprojeto2020.tipo AS t ON c.TP_Cod = t.TP_Cod", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     operacao = True
     
     if results == ():
@@ -64,6 +68,8 @@ def retornaPontos(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Contribuicao FROM bancoprojeto2020.contagem WHERE Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     operacao = True
 
     if results == ():
@@ -79,6 +85,8 @@ def retornaLinguagem(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Ling_Peso FROM bancoprojeto2020.linguagem as l INNER JOIN bancoprojeto2020.projeto as p ON l.Ling_Cod = p.Ling_Cod AND p.Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+    
     operacao = True
     
     if results == ():

@@ -7,23 +7,26 @@ def crudTipo():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.tipo")
     results = cursor.fetchall()
-    lista = []
+    cursor.close()
 
+    lista = []
     #pega o codigo do tipo de contagem do banco e adiciona na lista o tipo de contagem daquele codigo
     for row in results:
         cod = row[2]
-        cursor2 = conn.cursor()
-        cursor2.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
-        results2 = cursor2.fetchone()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM bancoprojeto2020.tipocontagem WHERE TC_Cod=%s", (cod))
+        results2 = cursor.fetchone()
         tc_descricao = results2[1]
+        cursor.close()
 
         lista.append(tc_descricao)
 
     #pega os tipos de contagem para utilizar na hora de alterar 
+    cursor = conn.cursor()
     select = "SELECT * FROM bancoprojeto2020.tipocontagem"
-    cursor3 = conn.cursor()
-    cursor3.execute(select)
-    results3 = cursor3.fetchall()
+    cursor.execute(select)
+    results3 = cursor.fetchall()
+    cursor.close()
 
     tam = len(lista)
 
@@ -37,8 +40,9 @@ def inserttp():
        cursor = conn.cursor()
        cursor.execute("INSERT INTO bancoprojeto2020.tipo (TP_Descricao,TC_Cod) VALUES (%s, %s)",(descricao,cod))
        conn.commit()
-       flash("Cadastrado com Sucesso!")
        cursor.close()
+
+       flash("Cadastrado com Sucesso!")
         
     return redirect(url_for('tipo.crudTipo'))
 
@@ -48,11 +52,13 @@ def alterartp():
        id = request.form['id']
        descricao = request.form['descricao'] 
        tccod = request.form.get('tc')
+
        cursor = conn.cursor()
        cursor.execute("UPDATE bancoprojeto2020.tipo SET TP_Descricao=%s, TC_Cod=%s WHERE TP_Cod=%s",(descricao,tccod, id))
        conn.commit()
-       flash("Alterado com Sucesso!")
        cursor.close()
+
+       flash("Alterado com Sucesso!")
 
        return redirect(url_for('tipo.crudTipo'))
 
@@ -61,7 +67,8 @@ def deletartp(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.tipo WHERE TP_Cod=%s",(id))
     conn.commit()
-    flash("Deletado com Sucesso!")
     cursor.close()
+
+    flash("Deletado com Sucesso!")
 
     return redirect(url_for('tipo.crudTipo'))

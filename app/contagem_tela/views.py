@@ -14,6 +14,7 @@ def contagemBancoTela():
             cursor.execute("SELECT * FROM bancoprojeto2020.projeto WHERE Emp_Cod=%s", (session.get('ID')))
                 
         results = cursor.fetchall()
+        cursor.close()
 
         return render_template('contTela.html', results=results)
     else:
@@ -24,6 +25,8 @@ def retornaFuncao(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Fun_Cod,Fun_Nome FROM bancoprojeto2020.funcao WHERE Proj_Cod=%s AND Fun_Tipo='T'", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     operacao = True
 
     if results == ():
@@ -39,6 +42,8 @@ def retornaFoto(codF):
     cursor = conn.cursor()
     cursor.execute("SELECT Fun_Caminho FROM bancoprojeto2020.funcao WHERE Fun_Cod=%s", (codF))
     results = cursor.fetchall()
+    cursor.close()
+
     operacao = True
     if results == ():
         operacao = False
@@ -53,11 +58,13 @@ def retornaTipo(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT TC_Cod FROM bancoprojeto2020.projeto WHERE Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
+    cursor.close()
     tc = results[0]
 
-    cursor2 = conn.cursor()
-    cursor2.execute("SELECT TP_Cod,TP_Descricao FROM bancoprojeto2020.tipo WHERE TC_Cod=%s", (tc))
-    results2 = cursor2.fetchall()
+    cursor = conn.cursor()
+    cursor.execute("SELECT TP_Cod,TP_Descricao FROM bancoprojeto2020.tipo WHERE TC_Cod=%s", (tc))
+    results2 = cursor.fetchall()
+    cursor.close()
 
     return jsonify (
         dado=results2
@@ -76,17 +83,14 @@ def adicionaContagem():
     complexidade = req['complexidade']
     pf = req['pf']
 
-
+    cursor = conn.cursor()
     if contCod == '0':
-        cursor = conn.cursor()
         cursor.execute("INSERT INTO bancoprojeto2020.contagem (Fun_Cod,TP_Cod,Proj_Cod,Cont_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",(fCod,tpCod,pCod,desc,td,tr,complexidade,pf))
-        conn.commit()
-        cursor.close()
     else:
-        cursor2 = conn.cursor()
-        cursor2.execute("UPDATE bancoprojeto2020.contagem SET TP_Cod=%s,Cont_Descricao=%s, Cont_TD=%s, Cont_TR=%s, Cont_Complexidade=%s, Cont_Contribuicao=%s WHERE Cont_Cod=%s",(tpCod,desc,td,tr,complexidade,pf,contCod))
-        conn.commit()
-        cursor2.close
+        cursor.execute("UPDATE bancoprojeto2020.contagem SET TP_Cod=%s,Cont_Descricao=%s, Cont_TD=%s, Cont_TR=%s, Cont_Complexidade=%s, Cont_Contribuicao=%s WHERE Cont_Cod=%s",(tpCod,desc,td,tr,complexidade,pf,contCod))
+
+    conn.commit()
+    cursor.close()
 
     return jsonify (
         operacao=True
@@ -97,6 +101,8 @@ def calculaPontos(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Contribuicao FROM bancoprojeto2020.contagem AS c INNER JOIN bancoprojeto2020.funcao AS f ON c.Fun_Cod = f.Fun_Cod and c.Proj_Cod = %s and f.Fun_Tipo = 'T'", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     dadosJson = json.dumps(results)
 
     return dadosJson
@@ -106,6 +112,8 @@ def retornaFatorAjuste(codProj):
     cursor = conn.cursor()
     cursor.execute("SELECT FA_Valor FROM bancoprojeto2020.fatorajuste WHERE Proj_Cod=%s", (codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     dadosJson = json.dumps(results)
 
     return dadosJson
@@ -115,6 +123,8 @@ def alterarContagem(contCod):
     cursor = conn.cursor()
     cursor.execute("SELECT Cont_Cod,Cont_Descricao,Cont_TD,Cont_TR,Cont_Complexidade,Cont_Contribuicao,TP_Cod FROM bancoprojeto2020.contagem WHERE Cont_Cod=%s", (contCod))
     results = cursor.fetchone()
+    cursor.close()
+
     dadosJson = json.dumps(results)
 
     return dadosJson
@@ -132,18 +142,22 @@ def deletarContagem(contCod):
 
 @contagemT.route("/contagemTela/retornaContagem/<string:codF>/<string:codProj>", methods=["GET"])
 def retornaContagem(codF,codProj):
-    #ta errado aqui
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM bancoprojeto2020.contagem WHERE Fun_Cod=%s AND Proj_Cod=%s", (codF,codProj))
     results = cursor.fetchall()
+    cursor.close()
+
     lista = []
-    cursor2 = conn.cursor()
+
+    
     for row in results:
         cod = row[2]
-        cursor2.execute("SELECT TP_Descricao FROM bancoprojeto2020.tipo WHERE TP_Cod=%s", (cod))
-        results2 = cursor2.fetchone()
-        tipo = results2[0]
+        cursor = conn.cursor()
+        cursor.execute("SELECT TP_Descricao FROM bancoprojeto2020.tipo WHERE TP_Cod=%s", (cod))
+        results2 = cursor.fetchone()
+        cursor.close()
 
+        tipo = results2[0]
         lista.append(tipo)
 
     return jsonify(

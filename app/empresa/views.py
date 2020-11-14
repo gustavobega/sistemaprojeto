@@ -7,10 +7,11 @@ from flask import session
 def exibirempresa():
     if session.get("USERNAME", None) is not None: 
         if session.get('USERNAME') == 'cassia@unoeste.br' or session.get('USERNAME') == 'francisco@unoeste.br':
-            select = "SELECT * FROM bancoprojeto2020.empresa"
             cursor = conn.cursor()
+            select = "SELECT * FROM bancoprojeto2020.empresa"
             cursor.execute(select)
             results = cursor.fetchall()
+            cursor.close()
             return render_template('empresa.html', results=results)
         else:
             return render_template('cad_empresa.html')
@@ -24,11 +25,13 @@ def insertemp():
        email = request.form['email'] 
        cnpj = request.form['cnpj'] 
        senha = request.form['senha'] 
+
        cursor = conn.cursor()
        cursor.execute("INSERT INTO bancoprojeto2020.empresa (Emp_Nome,Emp_Email,Emp_CNPJ,Emp_Senha) VALUES (%s,%s,%s,%s)",(nome,email,cnpj,senha))
        conn.commit()
-       flash("Cadastrado com Sucesso!")
        cursor.close()
+
+       flash("Cadastrado com Sucesso!")
 
        return redirect(url_for('empresa.exibirempresa'))
 
@@ -39,20 +42,23 @@ def alteraremp():
        nome = request.form['nome'] 
        email = request.form['email'] 
        cnpj = request.form['cnpj'] 
+
        cursor = conn.cursor()
        cursor.execute("UPDATE bancoprojeto2020.empresa SET Emp_Nome=%s,Emp_Email=%s,Emp_CNPJ=%s WHERE Emp_Cod=%s",(nome,email,cnpj,id))
        conn.commit()
-       flash("Alterado com Sucesso!")
        cursor.close()
 
+       flash("Alterado com Sucesso!")
+       
        return redirect(url_for('empresa.exibirempresa'))
 
-@empresa.route("/deletaremp/<string:id>",methods=['DELETE'])
+@empresa.route("/deletaremp/<string:id>",methods=['GET'])
 def deletaremp(id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bancoprojeto2020.empresa WHERE Emp_Cod=%s",(id))
     conn.commit()
-    flash("Deletado com Sucesso!")
     cursor.close()
+
+    flash("Deletado com Sucesso!")
 
     return redirect(url_for('empresa.exibirempresa'))

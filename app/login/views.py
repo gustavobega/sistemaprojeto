@@ -13,6 +13,7 @@ def sign_in():
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM bancoprojeto2020.empresa WHERE Emp_Email=%s AND Emp_Senha=%s", (email,senha))
         user = cursor.fetchone()
+        cursor.close()
  
         if user == None:
             flash("Sessão Inválida!")
