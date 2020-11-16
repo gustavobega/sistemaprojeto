@@ -14,9 +14,14 @@ function alteraLogin()
       .then (function (dadosObj) {
           if (dadosObj.operacao)
           {
-              document.getElementById('sign').innerHTML = `<i class="fa fa-fw fa-sign-out-alt"></i>Sair`
-              document.getElementById('sign').href = "/sign-out"
-
+            document.getElementById('sair').innerHTML = `
+                                          <li class="nav-item dropdown">
+                                              <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="sign-out"><i class="fa fa-fw fa-user"></i>Empresa</a>
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="/sign-out"><i class="fa fa-fw fa-sign-out-alt"></i>Sair</a>
+                                              </div>
+                                          </li>`
+            
               if (dadosObj.usuario == "cassia@unoeste.br" || dadosObj.usuario == "francisco@unoeste.br")
               {
                   document.getElementById('tipo').style.display = 'block'

@@ -2,8 +2,8 @@ from . import linguagem
 from app import conn
 from flask import render_template,request,redirect,flash,url_for
 
-@linguagem.route("/cadastroLinguagem",methods=['GET'])
-def cadastroLinguagem():
+@linguagem.route("/cadLinguagem",methods=['POST', 'GET'])
+def cadLinguagem():
     cursor = conn.cursor()
     select = "SELECT * FROM bancoprojeto2020.linguagem"
     cursor.execute(select)
