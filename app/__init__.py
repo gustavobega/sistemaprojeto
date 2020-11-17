@@ -12,7 +12,6 @@ wsgi_app = app.wsgi_app
 
 app.secret_key = "flash message"
 
-
 conn = pymysql.connect(host='den1.mysql2.gear.host', port=3306, user='bancoprojeto2020',
     passwd='Jg5euFT~-q39',db='bancoprojeto2020', charset="utf8")
     
